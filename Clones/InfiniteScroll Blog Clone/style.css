@@ -78,11 +78,10 @@ h1{
     display:flex;
     position: fixed;
     bottom:50px;
-    transition: opacity 0.3s ease-in;
 }
 
-.loader .show{
-    opacity: 1;
+.loader.show {
+    opacity: 1 !important;
 }
 
 .circle{
