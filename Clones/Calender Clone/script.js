@@ -5,20 +5,7 @@ let currentYear = today.getFullYear();
 document.getElementById("year").value = currentYear;
 document.getElementById("month").value = currentMonth;
 
-let months = [
-  "Jan",
-  "Feb",
-  "Mar",
-  "Apr",
-  "May",
-  "Jun",
-  "Jul",
-  "Aug",
-  "Sep",
-  "Oct",
-  "Nov",
-  "Dec"
-];
+let months = [ "Jan", "Feb","Mar", "Apr","May", "Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 
 let monthAndYear = document.getElementById("monthAndYear");
 showCalendar(currentMonth, currentYear);
@@ -28,6 +15,9 @@ function showCalendar(month, year) {
 
   /* Formula    */
   let daysInMonth = 32 - new Date(year, month, 32).getDate();
+  //OR
+  //  let daysInMonth = new Date(year, month+1, 0).getDate()
+
 
   let tbl = document.getElementById("calendar-body");
   tbl.innerHTML = "";

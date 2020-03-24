@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TodoList -1</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container mt-5">
+        <form id="taskForm">
+            <div class="form-group">
+                <label for="task">Task</label>
+                <input type="text" class="form-control" id="task" placeholder="Enter Task">
+            </div>
+            <button type="submit" class="btn btn-primary">Add Task</button>
+        </form>
+        <ul id="tasks" class="list-group mt-3"></ul>
+        <button id="clear" class="btn btn-danger mt-3">Clear all tasks</button>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
