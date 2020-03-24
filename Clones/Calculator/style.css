@@ -1,0 +1,48 @@
+html,body{
+    height:100%;
+}
+
+body{
+    box-sizing: border-box;
+    margin:0;
+    padding: 0;
+   
+}
+
+.calc{
+    width:250px;
+    height:auto;
+    padding:10px  20px;
+    border-radius: 4px;
+    border:5px solid #000;
+    position: relative;
+    top:50%;
+    left:50%;
+    transform: translate(-50%,-50%);
+}
+.screen{
+    width:85%;
+    height:50px;
+    padding: 20px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    font-size: 20px;
+    background:#000;
+    border-radius: 4px;
+    border:5px solid #000;
+    color:#fff
+}
+.btn{
+    width:55px;
+    height:55px;
+    margin:2px;
+    padding: 9px;
+    border-radius: 4px;
+    border:5px solid #000;
+}
+
+.btn:hover{
+    transform: scale(1.08);
+    transition: .5s;
+}
+
