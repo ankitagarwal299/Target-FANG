@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promise Concepts</title>
+</head>
+
+<body>
+    <script>
+        // let promise = new Promise(function (resolve, reject) {
+        //     /* this function is executed automatically  when the promise is constructed */
+        //     resolve(123); // immediately give the result: 123
+
+        //     //after 1 second signal
+        //     setTimeout(() => resolve("done"), 1000);
+
+        //     //after 1 second signal
+        //     setTimeout(() => reject(new Error('Whoops!')), 1000);
+        // })
+
+        // alert(promise);
+        // console.log(promise);
+
+
+        // //Consumers: then, catch, finally
+        // promise.then(
+        //     function (result) {
+        //     }, function (error) {
+        //     })
+
+
+        //----------------Complete Promise Syntax--------------------------
+        /*  let promise = new Promise (function (resolve,reject){
+             setTimeout(() => reject(new Error()),1000);
+             setTimeout(()=> resolve("done"),1000);
+         });
+         promise.finally(()=> alert("stop loading"))
+         promise.then(
+             result=> alert(result),//shows "done" after 1 sec
+             error=> alert (error)//doesn't run
+         ); */
+
+
+        //Example: callback-based variant loadScript
+        function loadScript(src, callback) {
+            let script = document.createElement('script');
+            script.src = src;
+            script.onload = function () {
+                callback(null, script);
+            }
+
+            script.onerror = function () {
+                callback(new Error(`Script load error ${src}`));
+            }
+            document.body.append(script);
+        }
+
+        //Rewrite with Promise
+        /* function loadScript(src) {
+            return new Promise(
+                function (resolve, reject) {
+                    let script = document.createElement('script');
+                    script.src = src;
+                    script.onload = function () {
+                        resolve("ksdjfnksdjfnksdjfnksdjfndklsfn");
+                    }
+                    script.onerror = function () {
+                        reject(new Error("sdfsdf"));
+                    }
+                    document.body.append(script);
+                });
+        }
+
+        let promise = loadScript('script.js');
+
+        promise.then( function (result) {
+                alert(result);
+            },
+            function (error) {
+                alert(error);
+            }
+        ); */
+
+        //Promises chaining
+
+        /*  new Promise(function (resolve, reject) {
+             setTimeout(() => resolve(1), 1000);
+         }).then(function (result) {
+             alert(result);
+             return result*2;
+         }).then(function (result){
+             alert(result);
+             return result*3
+         })
+         .then(function (result){
+             alert(result)
+         }) */
+
+        function loadScript(src) {
+            return new Promise(
+                function (resolve, reject) {
+                    let script = document.createElement('script');
+                    script.src = src;
+
+                    script.onload = function () {
+                        resolve(src);
+                    }
+
+                    script.onerror = function () {
+                        reject(new Error());
+                    }
+                }
+            );
+        }
+
+        //request the user from server
+        fetch('user.json')
+            .then(function (response) {
+                //returns response object before full text downloaded,
+                //convert response object to json
+                return response.json();
+            })
+            .then(function (text) {
+                console.log(text.name);
+            });
+
+
+        //requests to GitHub, load the user profile and show the avatar:
+        fetch('user.json')
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (user) {
+                return fetch(`https://api.github.com/users/${user.name}`)
+            })//load response as json
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (githubUser) {
+                let img = document.createElement('img');
+                img.src =  githubUser.avatar_url;
+                img.className = "promise-avatar-example"
+                document.body.append(img);
+                setTimeout(()=>img.remove(),5000);
+            })
+
+
+
+    </script>
+
+</body>
+
+</html>

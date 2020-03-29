@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Callback Concepts</title>
+</head>
+
+<body>
+    <h1>Callback Concepts</h1>
+
+    <script>
+        //callback
+
+        /* creates a <script> tag and append it to the page
+        this causes the script with given src to start loading and run when complete
+         */
+
+        function loadScript(src) {
+            let script = document.createElement('script');
+            script.src = src;
+            document.body.append(script);
+        }
+
+        /* The script is executed “asynchronously”,*/
+        //loadScript('script.js');
+        //Uncaught ReferenceError: newFunction is not defined
+        //newFunction();
+
+        //it doesn’t wait until the script loading finishes.
+        //alert("code below loadscript, this is executed first and loadscript after")
+
+        /* We want way to track the loadScript completion and then execute newFunction from that script immeduately */
+
+        //lets add callback
+        function loadScript(src, callback) {
+            let script = document.createElement('script');
+            script.src = src;
+            script.onload = function () {
+                callback(script);
+            }
+            document.body.append(script);
+        }
+
+        // loadScript('script.js', function () {
+        //     // the callback runs after the script is loaded
+
+        //     newFunction();// so now it works
+        //     //it doesn’t wait until the script loading finishes.
+        //     alert("code below loadscript, this is executed first and loadscript after")
+
+        // });
+
+        /*  loadScript('script', function (script) {
+             alert(`Cool, the ${script.src} is loaded , let's load one more`);
+ 
+             loadScript('script2.js', function (script) {
+                 alert(`Cool, the second script is loaded`);
+ 
+                 loadScript('script3.js', function (script) {
+                     alert(`Cool, the third script is loaded`);
+ 
+                     loadScript('script4.js', function (script) {
+                         alert(`Cool, the 4th script is loaded`);
+ 
+                         loadScript('script5.js', function (script) {
+                             alert(`Cool, the 5th script is loaded`)
+                         })
+                     })
+                 })
+             })
+         }) */
+
+
+        //Handling errors
+        function loadScript(src, callback) {
+            let script = document.createElement('script');
+            script.src = src;
+
+            // script.onload = () => callback(null,script);
+            // script.onerror = () => callback(new Error(`Script load errror for ${src}`));
+
+            script.onload = function () {
+                callback(null, script);
+            }
+
+            script.onerror = function () {
+                callback(new Error(`Script load error for ${src}`));
+            }
+            document.body.append(script);
+        }
+
+        loadScript('script.js', function (error, script) {
+            if (error) {
+                //handle error
+            } else {
+                //script loaded successfully
+            }
+        });
+
+
+
+
+        //Pyramid of Doom
+        loadScript('1.js', function (error, script) {
+            if (error) {
+                handleError(error);
+            } else {
+                loadScript('2.js', function (error, script){
+                    if (error){
+                        handleError(error);
+                    }
+                    else{
+                        //...continue
+                    }
+                })
+            }
+        })
+
+
+        //OR
+
+        loadScript('1.js', step1);
+
+        function step1(error,script){
+            if(error){
+                handleError(error);
+            }else{
+                //..
+                loadScript('2.js',step2);
+            }
+        }
+
+        function step2(error, script){
+            if(error){
+                handleError(error);
+            }else{
+                //..
+                loadScript('2.js',step2);
+            }
+        }
+
+
+
+
+    </script>
+
+</body>
+
+</html>
