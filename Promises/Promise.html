@@ -8,6 +8,14 @@
 </head>
 
 <body>
+
+    <h1>Summary</h1>
+    <ul>
+        <li>.catch handles errors in promises of all kinds: be it a reject() call, or an error thrown in a handler.</li>
+        <li>We should place .catch exactly in places where we want to handle errors and know how to handle them. The handler should analyze errors (custom error classes help) and rethrow unknown ones (maybe they are programming mistakes).</li>
+        <li>It’s ok not to use .catch at all, if there’s no way to recover from an error.</li>
+        <li>In any case we should have the unhandledrejection event handler (for browsers, and analogs for other environments) to track unhandled errors and inform the user (and probably our server) about them, so that our app never “just dies”.</li>
+    </ul>
     <script>
         // let promise = new Promise(function (resolve, reject) {
         //     /* this function is executed automatically  when the promise is constructed */
@@ -123,8 +131,14 @@
                 return response.json();
             })
             .then(function (text) {
-                console.log(text.name);
+                //  console.log(text.name);
             });
+
+
+
+
+
+
 
 
         //requests to GitHub, load the user profile and show the avatar:
@@ -139,12 +153,108 @@
                 return response.json();
             })
             .then(function (githubUser) {
-                let img = document.createElement('img');
-                img.src =  githubUser.avatar_url;
-                img.className = "promise-avatar-example"
-                document.body.append(img);
-                setTimeout(()=>img.remove(),5000);
+                /*   let img = document.createElement('img');
+                  img.src = githubUser.avatar_url;
+                  img.className = "promise-avatar-example"
+                  document.body.append(img);
+                  setTimeout(() => img.remove(), 5000); */
             })
+
+
+
+
+
+
+
+        //How to make the chain extendable?
+        //As a good practice, an asynchronous action should always return a promise
+        fetch('user.json')
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (user) {
+                return fetch(`https://api.github.com/users/${user.name}`)
+            })//load response as json
+            .then(function (response) {
+                return response.json();
+            })
+            .then(function (githubUser) {
+                return new Promise(function (resolve, reject) {
+                    // let img = document.createElement('img');
+                    // img.src = githubUser.avatar_url;
+                    // img.className = "promise-avatar-example"
+                    // document.body.append(img);
+
+                    // setTimeout(() => {
+                    //     img.remove();
+                    //     resolve(githubUser);
+                    // }, 5000);
+                })
+            }).then(function (githubUser) {
+                alert(`Finished showing ${githubUser.name}`);
+            })
+            .catch(error => alert(error.message));;
+
+
+
+
+
+
+
+
+
+
+        //Finally, we can split the code into reusable functions:
+        function loadJson(url) {
+            return fetch(url)
+                .then(function (response) {
+                    return response.json();
+                })
+        }
+        function loadGithubUser(name) {
+            return fetch(`https://api.github.com/users/${name}`)
+                .then(function (response) {
+                    return response.json();
+                })
+        }
+        function showAvatar(githubUser) {
+            return new Promise(function (resolve, reject) {
+                let img = document.createElement('img');
+                img.src = githubUser.avatar_url;
+                img.className = "promise-avatar-example";
+
+                document.body.append(img)
+
+                setTimeout(() => {
+                    img.remove();
+                    resolve(githubUser);
+                }, 3000);
+            })
+        }
+
+        loadJson(`user.json`)
+            .then(function (user) {
+                return loadGithubUser(user.name)
+            })
+            .then(function (user) {
+                return showAvatar(user)
+            })
+            .then(function (githubUser) {
+                alert(`Finished showing ${githubUser.name}`);
+            })
+            .catch(function (error) {
+                console.log(error.message);
+                alert(error.message)
+            });
+
+
+
+
+            //What happens when an error is not handled? 
+            //Ans:The JavaScript engine tracks such rejections and generates a global error in that case.
+            // You can see it in the console if you run the example above.
+
+
 
 
 
