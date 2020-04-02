@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <style>
+        .required::before {
+            content: '';
+            display: block;
+            width: 10px;
+            height: 10px;
+            background-color: red;
+        }
+
+        /* .required::after{
+            content:'';
+            display:block;
+            width:10px;
+            height:10px;
+            background-color: red;
+        } */
+
+
+        /* Case 1: Use in * */
+        .required::after {
+            content: '*'
+        }
+
+        /* Case 2: Add new things to an element  */
+        [data-tooltip] {
+            position: relative;
+        }
+
+        [data-tooltip]:hover::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            margin-top:5px;
+            padding: 5px;
+            background-color: lightgray;
+            border-radius: 5px;
+
+        }
+    </style>
+</head>
+
+<body>
+
+    <label class="required">Name</label>
+
+    <!-- Psuedo Elements cannot be used on input -->
+    <!--  Input does not have CONTENTS/innerHTML-->
+    <input type="text" required>
+    <button data-tooltip="Tooltip">Submit Form</button>
+
+</body>
+
+</html>
