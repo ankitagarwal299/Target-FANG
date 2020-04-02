@@ -1,0 +1,13 @@
+.wrapper{
+    text-align: center;
+}
+
+#button{
+    display: inline-block;
+    width:400px;
+    border:1px solid black;
+    text-align: center;
+    padding: 1rem;
+    font-size: 2rem;
+    margin-top: 5rem;
+}
