@@ -1,0 +1,15 @@
+{
+    "name": "typeWriter_portfolio",
+    "version": "1.0.0",
+    "description": "Responsive Portfoli and Type writer effect",
+    "main": "script.js",
+    "homepage": "https://ankitagarwal299/github.io/typeWriter_portfolio",
+    "scripts": {
+        "deploy":"gh-pages -d dist"
+    },
+    "author": "Ankit Agarwal",
+    "license": "MIT",
+    "dependencies": {
+        "gh-pages": "^2.2.0"
+    }
+}
