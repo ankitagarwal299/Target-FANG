@@ -128,7 +128,8 @@ class Trie {
 
 let trie = new Trie();
 
-let words = ["ab", "able", "boot", "book", "bat", "batter", "eat", "each"];
+let words = ['ab', 'able', 'boot', 'book', 'bat', 'batter', 'eat', 'each', 
+'i like to eat cake', 'i like to eat pie', 'i like to eat pizza', 'i like to drink soda'];
 
 for (let i = 0; i < words.length; i++) {
   trie.insert(words[i]);
