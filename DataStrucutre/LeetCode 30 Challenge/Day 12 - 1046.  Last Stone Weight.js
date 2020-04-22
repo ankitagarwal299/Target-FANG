@@ -2,24 +2,22 @@ var lastStoneWeight = function (stones) {
   var maxHeap = new MaxHeap();
 
   for (let i = 0; i < stones.length; i++) {
-      maxHeap.insert(stones[i]);
+    maxHeap.insert(stones[i]);
   }
 
-let firstMax,secondMax;
+  let firstMax, secondMax;
 
-while (maxHeap.storage.length > 1) {
-  firstMax = maxHeap.remove();
-  secondMax = maxHeap.remove();
+  while (maxHeap.storage.length > 1) {
+    firstMax = maxHeap.remove();
+    secondMax = maxHeap.remove();
 
-  if (firstMax != secondMax) {
-    maxHeap.insert(firstMax - secondMax);
+    if (firstMax != secondMax) {
+      maxHeap.insert(firstMax - secondMax);
+    }
   }
-}
-if (maxHeap.storage.length == 1 && maxHeap.storage[0] == 1){
+  if (maxHeap.storage.length == 1 && maxHeap.storage[0] == 1) {
     return maxHeap.storage[0];
-}
-  
-
+  }
 };
 
 console.log(lastStoneWeight([2, 7, 4, 1, 8, 1]));
