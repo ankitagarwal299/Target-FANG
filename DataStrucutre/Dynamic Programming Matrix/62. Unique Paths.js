@@ -1,9 +1,6 @@
 var uniquePaths = function (m, n) {
-    let dp = Array(m)
-      .fill(0)
-      .map(() => Array(n).fill(0));
-  console.log(dp)
-    console.log(dp.length)
+    let dp = Array(m).fill(0).map(() => Array(n).fill(0));
+    
     for (let i = 0; i < m ; i++) {
       dp[i][0] = 1;
     }
