@@ -101,7 +101,7 @@ var reorganizeString = function (str) {
     //greedy part 
     let mostFrquentlyChar = maxHeap.remove();
     let secondMostFrequentChar = maxHeap.remove();
-    
+
     console.log(mostFrquentlyChar, secondMostFrequentChar);
     resultStr += mostFrquentlyChar.char + secondMostFrequentChar.char;
 
@@ -132,7 +132,7 @@ var reorganizeString = function (str) {
   return resultStr;
 };
 //reorganizeString("aabcccccdfeeeeeee")
-console.log(reorganizeString("aab"));
+console.log(reorganizeString("aabcccccdfeeeeeee"));
 
 
 
