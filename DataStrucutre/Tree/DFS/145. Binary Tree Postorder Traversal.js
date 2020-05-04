@@ -1,4 +1,10 @@
-
+class TreeNode {
+    constructor(value) {
+      this.value = value;
+      this.left = null;
+      this.right = null;
+    }
+  }
 var postorderTraversal = function(root) {
     if(root == null) return [];
     let curr = root;
@@ -31,6 +37,8 @@ var postorderTraversal = function(root) {
     }
     return result;
 };
+
+
 
 const root = new TreeNode(1);
 root.right = new TreeNode(2);
