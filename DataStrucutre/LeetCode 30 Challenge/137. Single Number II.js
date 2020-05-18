@@ -15,19 +15,19 @@ Input: [0,1,0,1,0,1,99]
 Output: 99
  */
 
-// var singleNumber = function(nums) {
-//     var lib = {};
+var singleNumber = function(nums) {
+    var lib = {};
   
-//     for (var i = 0; i < nums.length; i++){
-//       if (lib[nums[i]] === undefined){
-//         lib[nums[i]] = 1;
-//       } else {
-//         lib[nums[i]]++;
-//         if (lib[nums[i]] === 3){
-//           delete lib[nums[i]];
-//         }
-//       }
-//     }
+    for (var i = 0; i < nums.length; i++){
+      if (lib[nums[i]] === undefined){
+        lib[nums[i]] = 1;
+      } else {
+        lib[nums[i]]++;
+        if (lib[nums[i]] === 3){
+          delete lib[nums[i]];
+        }
+      }
+    }
   
-//     return Number(Object.keys(lib)[0]);
-//   };
+    return Number(Object.keys(lib)[0]);
+  };
