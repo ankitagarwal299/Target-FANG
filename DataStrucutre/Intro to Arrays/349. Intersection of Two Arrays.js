@@ -4,14 +4,8 @@ function intersect(nums1, nums2) {
     for (let num of nums1) {
       if (!map.has(num)) map.set(num, 1);
     }
-
-    for (let n of nums2){
-      if (map.has(nums2[n])){
-        map.delete(n);
-        result.push(n);
-      }
-    }
   
+    //filter 
     return nums2.filter((n) => {
       if (map.has(n)) {
         map.delete(n);
