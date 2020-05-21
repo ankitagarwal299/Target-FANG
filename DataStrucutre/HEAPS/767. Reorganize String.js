@@ -1,7 +1,5 @@
 //https://www.youtube.com/watch?v=zaM_GLLvysw&t=70s
 
-
-
 class MaxHeap {
   constructor() {
     this.storage = [];
@@ -24,8 +22,9 @@ class MaxHeap {
   bubbleUp() {
     let child = this.storage.length - 1;
     let parent = this.getParent(child);
-    if (parent < 0) { return; }
-
+    if (parent < 0) {
+      return;
+    }
 
     while (this.storage[child].values > this.storage[parent].values) {
       this.swap(child, parent);
@@ -49,16 +48,17 @@ class MaxHeap {
   }
 
   getChild(parent) {
-    let rightChildIndex = (2 * parent) + 2;
-    let leftChildIndex = (2 * parent) + 1;
+    let rightChildIndex = 2 * parent + 2;
+    let leftChildIndex = 2 * parent + 1;
 
     if (this.storage[leftChildIndex] != undefined) {
       if (this.storage[rightChildIndex] != undefined) {
-
-        if (this.storage[leftChildIndex].values > this.storage[rightChildIndex].values) {
+        if (
+          this.storage[leftChildIndex].values >
+          this.storage[rightChildIndex].values
+        ) {
           return leftChildIndex;
-        }
-        else {
+        } else {
           return rightChildIndex;
         }
       }
@@ -98,7 +98,7 @@ var reorganizeString = function (str) {
 
   let resultStr = "";
   while (maxHeap.storage.length > 1) {
-    //greedy part 
+    //greedy part
     let mostFrquentlyChar = maxHeap.remove();
     let secondMostFrequentChar = maxHeap.remove();
 
@@ -106,55 +106,32 @@ var reorganizeString = function (str) {
     resultStr += mostFrquentlyChar.char + secondMostFrequentChar.char;
 
     counts.set(mostFrquentlyChar.char, counts.get(mostFrquentlyChar.char) - 1);
-    counts.set(secondMostFrequentChar.char, counts.get(secondMostFrequentChar.char) - 1);
+    counts.set(
+      secondMostFrequentChar.char,
+      counts.get(secondMostFrequentChar.char) - 1
+    );
 
     console.log(counts);
 
     if (counts.get(mostFrquentlyChar.char) > 0) {
-      maxHeap.insert(mostFrquentlyChar)
+      maxHeap.insert(mostFrquentlyChar);
     }
     if (counts.get(secondMostFrequentChar.char) > 0) {
-      maxHeap.insert(secondMostFrequentChar)
+      maxHeap.insert(secondMostFrequentChar);
     }
   }
 
   //last char in heap
   if (maxHeap.storage.length != 0) {
-
     let lastChar = maxHeap.remove();
     if (counts.get(lastChar.char) > 1) {
-      return "";//we dont have anything to isnert in between so return ""
+      return ""; //we dont have anything to isnert in between so return ""
     }
     resultStr += lastChar.char;
   }
 
-  console.log(maxHeap.storage)
+  console.log(maxHeap.storage);
   return resultStr;
 };
 //reorganizeString("aabcccccdfeeeeeee")
 console.log(reorganizeString("aabcccccdfeeeeeee"));
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

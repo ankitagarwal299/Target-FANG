@@ -37,3 +37,8 @@ class Interval {
     new Interval(2, 3),
     new Interval(3, 6),
   ])}`);
+
+  //https://www.youtube.com/watch?v=i2bBG7CaVxs
+
+  
+  /* Q. Determine if the person could attend all meeting */
