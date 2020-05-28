@@ -50,7 +50,7 @@ class MinHeap {
       if (this.storage[leftChildIndex] != undefined) {
         if (this.storage[rightChildIndex] != undefined) {
           if (
-            this.storage[leftChildIndex].interval.start > this.storage[rightChildIndex].interval.start
+            this.storage[leftChildIndex].interval.start < this.storage[rightChildIndex].interval.start
           ) {
             return leftChildIndex;
           } else {
@@ -118,25 +118,18 @@ function find_employee_free_time(schedule) {
   for (let i = 0; i < schedule.length; i++) {
     minHeap.insert(new EmployeeInterval(schedule[i][0], i, 0));
   }
-  
-  console.log("initial loop",minHeap.storage);
 
   let previousInterval = minHeap.storage[0].interval;
-  console.log("previousInterval",previousInterval);
   while (minHeap.storage.length > 0) {
-      console.log("before remove ",minHeap.storage);
 
     const queueTop = minHeap.remove();
-    console.log("outside",queueTop)
     
     // if previousInterval is not overlapping with the next interval, insert a free interval
     if (previousInterval.end < queueTop.interval.start) {
-      console.log("if condition")
       result.push(new Interval(previousInterval.end, queueTop.interval.start));
       previousInterval = queueTop.interval;
     } else { // overlapping intervals, update the previousInterval if needed
       if (previousInterval.end < queueTop.interval.end) {
-        console.log("else condition")
         previousInterval = queueTop.interval;
         
       }
@@ -150,7 +143,6 @@ function find_employee_free_time(schedule) {
       ));
     }
   }
-  console.log(result);
   return result;
 }
 

@@ -50,7 +50,7 @@ class MinHeap {
       if (this.storage[leftChildIndex] != undefined) {
         if (this.storage[rightChildIndex] != undefined) {
           if (
-            this.storage[leftChildIndex].end > this.storage[rightChildIndex].end
+            this.storage[leftChildIndex].end < this.storage[rightChildIndex].end
           ) {
             return leftChildIndex;
           } else {
