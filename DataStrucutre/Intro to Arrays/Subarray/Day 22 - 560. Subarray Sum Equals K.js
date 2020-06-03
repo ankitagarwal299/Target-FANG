@@ -54,3 +54,5 @@ var subarraySum = function (nums, k) {
 };
 
 console.log(subarraySum([2,0,2], 2));
+
+//find the total number of continuous subarrays whose sum equals to k
