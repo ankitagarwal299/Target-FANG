@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Throttle and Debounce</title>
+    <!-- <script src="throttle.js"></script> -->
+    <script src="debounce.js"></script>
+
+</head>
+<button id="my-id">Click Me</button>
+
+<script>
+
+    const search = (fn, delay) => {
+        //fn returns right away and provides handle
+        let last = 0;
+
+        return (...args) => {
+            const now = new Date().getTime();
+            if (now - last < delay) {
+                return;
+            }
+            last = now;
+
+            //fire the event
+            return fn(...args)
+        }
+    }
+
+    document.getElementById('my-id').addEventListener('click', search((e) => {
+        console.log('you clicked me!', e);
+    }, 5000));
+
+
+    //----------------//----------------//----------------//----------------//----------------//----------------//----------------//----------------//----------------//----------------
+
+    loggerFn = () => {
+        console.log("throttle fn", this.args);
+    }
+    const throttle = (fn, delay) => {
+        let flag = true;
+        return function () {
+            let now = new Date().getTime();
+            let args = arguments;
+            let context = this;
+            if (flag) {
+                fn.apply(context, args);
+                flag = false;
+                setTimeout(() => {
+                    flag = true;
+                }, delay);
+            }
+        }
+    }
+
+    const normalFunc = () => {
+        console.log("Normal Function");
+    }
+
+    const betterLoggerFunction = throttle(loggerFn, 1000);
+
+
+    window.addEventListener("resize", betterLoggerFunction);
+    window.addEventListener('resize', normalFunc)
+
+
+
+
+
+
+</script>
+
+</html>
+
+<!-- https://www.youtube.com/watch?v=9NPPsP-4LBg -->
+<!-- https://www.youtube.com/watch?v=81NGEXAaa3Y -->
