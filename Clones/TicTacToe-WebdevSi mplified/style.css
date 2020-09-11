@@ -1,0 +1,158 @@
+*,*::after,*::before{
+    box-sizing: border-box;
+}
+:root{
+    --cell-size:100px;
+    --mark-size: calc(var(--cell-size) * .9);
+}
+
+body{
+    margin:0;
+}
+
+.board{
+    width: 100vw;
+    height:100vh;
+    display: grid;
+    justify-content: center;
+    align-content: center;
+    grid-template-columns: repeat(3,auto);
+
+    justify-items: center;
+    align-items: center;
+}
+
+.cell{
+    width:var(--cell-size);
+    height:var(--cell-size);
+    border:1px solid black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    cursor: pointer;
+}
+
+
+
+.cell:first-child,
+.cell:nth-child(2),
+.cell:nth-child(3){
+    border-top:none;
+}
+
+.cell:nth-child(3n +1){
+    border-left:none;
+}
+.cell:nth-child(3n+3){
+    border-right:none;
+}
+.cell:last-child,
+.cell:nth-child(8),
+.cell:nth-child(7){
+    border-bottom:none;
+}
+
+/* cursor */
+.cell.x , 
+.cell.circle {
+    cursor :not-allowed;
+}
+
+.cell.circle::before {
+    background-color: #000;
+}
+
+.cell.x::before , 
+.cell.x::after{
+    background-color: #000;
+}
+
+.board.x .cell:not(.x):not(.circle):hover:before,
+.board.x .cell:not(.x):not(.circle):hover:after,
+.board.circle .cell:not(.x):not(.circle):hover:before{
+    background-color: lightgrey;
+}
+
+
+
+/* X through CSS */
+.cell.x::before , 
+.cell.x::after,
+.board.x .cell:not(.x):not(.circle):hover:before,
+.board.x .cell:not(.x):not(.circle):hover:after  {
+    content:'';
+    position: absolute;
+    width: calc(var(--mark-size) * .15);
+    height: var(--mark-size);
+   
+}
+
+.cell.x::before,
+.board.x .cell:not(.x):not(.circle):hover:before{
+    transform:rotate(45deg);
+}
+
+.cell.x::after,
+.board.x .cell:not(.x):not(.circle):hover:after {
+    transform:rotate(-45deg);
+}
+
+/* O through CSS */
+
+
+.cell.circle::before , 
+.cell.circle::after,
+.board.circle .cell:not(.x):not(.circle):hover:before,
+.board.circle .cell:not(.x):not(.circle):hover:after {
+    content:'';
+    position: absolute;
+    border-radius: 50%;
+}
+
+.cell.circle::before,
+.board.circle .cell:not(.x):not(.circle):hover:before{
+    width: var(--mark-size);
+    height: var(--mark-size);
+}
+
+.cell.circle::after,
+.board.circle .cell:not(.x):not(.circle):hover:after{
+    width: calc(var(--mark-size) * .7);
+    height: calc(var(--mark-size) * .7);
+    background-color: white;
+}
+
+.winning-message{
+    display: none;
+    position: fixed;
+    top:0;
+    left:0;
+    bottom:0;
+    right:0;
+    background-color: rgba(0,0,0,0.9);
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    font-size: 5rem;
+    flex-direction: column;
+}
+.winning-message button{
+    font-size: 3rem;
+    background-color: #fff;
+    border:#000;
+    padding: .25em .5em;
+    cursor: pointer;
+}
+
+.winning-message button:hover{
+    font-size: 3rem;
+    background-color: #000;
+    border:#fff;
+    color:#fff;
+    padding: .25em .5em;
+    cursor: pointer;
+}
+.winning-message.show{
+    display: flex;
+}
