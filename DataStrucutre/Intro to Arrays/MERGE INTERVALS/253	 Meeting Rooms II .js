@@ -21,7 +21,7 @@ class MinHeap {
   }
 
   swap(index1, index2) {
-    [this.storage[index1], this.storage[index2]] = [this.storage[index2],this.storage[index1]];
+    [this.storage[index1], this.storage[index2]] = [this.storage[index2], this.storage[index1]];
   }
 
   bubbleUp() {
@@ -96,45 +96,45 @@ class MinHeap {
     return item;
   }
 }
-    
-    
-  class Meeting {
-    constructor(start, end) {
-      this.start = start;
-      this.end = end;
-    }
-  
-    print_interval() {
-      process.stdout.write(`[${this.start}, ${this.end}]`);
-    }
+
+
+class Meeting {
+  constructor(start, end) {
+    this.start = start;
+    this.end = end;
   }
-  
 
-  //Solution1:
-
-  function min_meeting_rooms(intervals) {
-    if (intervals == null || intervals.length == 0) return 0;
-    intervals.sort((a, b) => a.start - b.start);
-    
-    let minHeap = new MinHeap();
-    minHeap.insert(intervals[0]);
-
-    let minRooms = 0;
-    for (let i = 1; i < intervals.length; i++) {
-      // remove all the meetings that have ended
-      while (minHeap.storage.length > 0 && intervals[i].start >= minHeap.storage[0].end) {
-        minHeap.remove();
-      }
-      // add the current meeting into min_heap
-      minHeap.insert(intervals[i]);
-      // all active meetings are in the min_heap, so we need rooms for all of them.
-      minRooms = Math.max(minRooms, minHeap.storage.length);
-    }
-    console.log( minHeap.storage)
-    return minRooms;
+  print_interval() {
+    process.stdout.write(`[${this.start}, ${this.end}]`);
   }
-  
-  
+}
+
+
+//Solution1:
+
+function min_meeting_rooms(intervals) {
+  if (intervals == null || intervals.length == 0) return 0;
+  intervals.sort((a, b) => a.start - b.start);
+
+  let minHeap = new MinHeap();
+  minHeap.insert(intervals[0]);
+
+  let minRooms = 0;
+  for (let i = 1; i < intervals.length; i++) {
+    // remove all the meetings that have ended
+    while (minHeap.storage.length > 0 && intervals[i].start >= minHeap.storage[0].end) {
+      minHeap.remove();
+    }
+    // add the current meeting into min_heap
+    minHeap.insert(intervals[i]);
+    // all active meetings are in the min_heap, so we need rooms for all of them.
+    minRooms = Math.max(minRooms, minHeap.storage.length);
+  }
+  console.log(minHeap.storage)
+  return minRooms;
+}
+
+
 console.log(`Minimum meeting rooms required: ` +
   `${min_meeting_rooms([new Meeting(4, 5), new Meeting(2, 3), new Meeting(2, 4), new Meeting(3, 5)])}`);
 
@@ -155,25 +155,25 @@ console.log(`Minimum meeting rooms required: ` +
 //https://www.youtube.com/watch?v=PWgFnSygweI&list=PLi9RQVmJD2fYXgBAUfaN5MXgYPUTbzqeb&index=56
 //Solution2:
 function min_meeting_rooms(intervals) {
-    if (intervals == null || intervals.length == 0) return 0;
-    intervals.sort((a, b) => a.start - b.start);
+  if (intervals == null || intervals.length == 0) return 0;
+  intervals.sort((a, b) => a.start - b.start);
 
-    let minHeap = new MinHeap();
-    minHeap.insert(intervals[0]);
-    for (let i = 1; i < intervals.length; i++) {
-      let current = intervals[i];
-      let earliest = minHeap.remove();
+  let minHeap = new MinHeap();
+  minHeap.insert(intervals[0]);
+  for (let i = 1; i < intervals.length; i++) {
+    let current = intervals[i];
+    let earliest = minHeap.remove();
 
-      if(current.start >= earliest.end){
-          //no conflict , then same meeting room continued so increase endtime of prev meeting
-          earliest.end = current.end;
-      }else{
-          minHeap.insert(current);
-      }
-
-      minHeap.insert(earliest);
-      
-      console.log(minHeap.storage)
+    if (current.start >= earliest.end) {
+      //no conflict , then same meeting room continued so increase endtime of prev meeting
+      earliest.end = current.end;
+    } else {
+      minHeap.insert(current);
     }
-    return minHeap.storage.length;
+
+    minHeap.insert(earliest);
+
+    console.log(minHeap.storage)
   }
+  return minHeap.storage.length;
+}

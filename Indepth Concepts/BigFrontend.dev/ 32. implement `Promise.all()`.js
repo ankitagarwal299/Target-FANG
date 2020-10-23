@@ -30,3 +30,28 @@ function all(promises) {
 
     })
 }
+
+function all(promises) {
+    if (promises.length == 0) return new Promise.resolve([]);
+    let _promises = promises.map(item => item instanceof Promise ? item : Promise.resolve(item));
+
+    return new Promise((resolve, reject) => {
+        let result = [];
+        let isSettledCount = 0;
+        _promises.forEach((promise, index) => {
+            promise.then((response) => {
+                result[index] = {
+                    status: "fullfilled",
+                    value: response
+                }
+                isSettledCount++;
+
+                if (_promises.length == isSettledCount) {
+                    resolve(result);
+                }
+            }, reason => {
+                reject(reason);
+            })
+        })
+    });
+}

@@ -1,36 +1,35 @@
+
 function allSettled(promises) {
-    if (promises.length == 0) return Promise.resolve([]);
-    const _promises = promises.map((item) => item instanceof Promise ? item : Promise.resolve(item))
+    if (promise.length == 0) return Promise.resolve([]);
+    let _promises = promises.map((item) => item instanceof Promise ? item : Promise.resolve(item));
 
     return new Promise((resolve, reject) => {
+        let promiseExecutedCount = 0;
         const result = [];
-        let unSettlePromiseCount = _promises.length;
-
 
         _promises.forEach((promise, index) => {
-            promise.then(
-                (value) => {
-                    result[index] = {
-                        status: "fullfilled",
-                        value
-                    };
+            promise.then((response) => {
+                result[index] = {
+                    value: response,
+                    status = 'fullfilled'
+                };
 
-                    unSettlePromiseCount -= 1;
+                promiseExecutedCount++;
+                if (promiseExecutedCount == promises.length) {
+                    resolve(result);
+                }
+            }, reason => {
 
-                    if (unSettlePromiseCount == 0) {
-                        resolve(result);
-                    }
+                result[index] = {
+                    value: reason,
+                    status: "rejected"
+                }
+                promiseExecutedCount++;
+                if (promiseExecutedCount == promises.length) {
+                    resolve(result);
+                }
 
-                }, (reason) => {
-                    result[index] = {
-                        status: "rejected",
-                        reason
-                    }
-                    unSettlePromiseCount -= 1;
-
-                    if (unSettlePromiseCount == 0) resolve(result);
-                })
+            })
         })
-
-    });
+    })
 }

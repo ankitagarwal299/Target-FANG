@@ -1,3 +1,5 @@
+/* Practised with timer, completed in 20mins */
+
 class PriorityQueue {
   storage = [];
 
@@ -85,66 +87,32 @@ class PriorityQueue {
   }
 }
 
-class Job {
-  constructor(start, end, cpuLoad) {
-    this.start = start;
-    this.end = end;
-    this.cpuLoad = cpuLoad;
+let comparator = (a, b) => {
+  if (a > b) {
+    return -1;
+  } else if (a < b) {
+    return 1;
+  } else {
+    return 1;
   }
 }
 
-function find_max_cpu_load(jobs) {
-  // sort the jobs by start time
-  if (jobs == null || jobs == undefined || jobs.length < 1) return 0;
-  if (jobs.length == 1) return jobs[0].cpuLoad;
+let pq = new PriorityQueue(comparator);
 
-  jobs.sort((a, b) => (a.start == b.start) ? (a.end - b.end) : (a.start - b.start));
+pq.add(6);
 
-  let comparator = (a, b) => a.start - b.start;
-  let pq = new PriorityQueue(comparator);
-
-  let maxCPULoad = 0;
-  let currentLoad = 0;
-
-  for (let i = 0; i < jobs.length; i++) {
-    if (pq.storage.length > 0 && jobs[i].start >= pq.storage[0].end) {
-      //no overlapping remove previous load
-      let previousload = pq.poll();
-      currentLoad = currentLoad - previousload.cpuLoad;
-      //maxCPULoad = Math.max(currentLoad, maxCPULoad);
-    } else {
-      //overlapping, cpu is getting loaded, getting lot of jobs ot execute at once
-      currentLoad = currentLoad + jobs[i].cpuLoad;
-      pq.add(jobs[i]);
-      maxCPULoad = Math.max(currentLoad, maxCPULoad);
-    }
-  }
+pq.add(0);
+pq.add(1);
+pq.add(2);
+pq.add(3);
+pq.add(4);
+pq.add(5);
+console.log(pq)
 
 
-  return maxCPULoad;
-}
+console.log(pq.poll());
+console.log(pq.poll());
+console.log(pq.poll());
 
-console.log(
-  `Maximum CPU load at any time: ` +
-  `${find_max_cpu_load([
-    new Job(1, 4, 3),
-    new Job(2, 5, 4),
-    new Job(7, 9, 6),
-  ])}`
-);
-console.log(
-  `Maximum CPU load at any time: ` +
-  `${find_max_cpu_load([
-    new Job(6, 7, 10),
-    new Job(2, 4, 11),
-    new Job(8, 12, 15),
-  ])}`
-);
-console.log(
-  `Maximum CPU load at any time: ` +
-  `${find_max_cpu_load([
-    new Job(1, 4, 2),
-    new Job(2, 4, 1),
-    new Job(3, 6, 5),
-  ])}`
-);
+console.log(pq)
+

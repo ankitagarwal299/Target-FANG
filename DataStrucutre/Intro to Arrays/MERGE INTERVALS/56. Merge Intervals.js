@@ -1,63 +1,22 @@
-class Interval {
-  constructor(start, end) {
-    this.start = start;
-    this.end = end;
-  }
+var merge = function (intervals) {
+  let result = [];
+  intervals.sort((a, b) => (a[0] !== b[0]) ? a[0] - b[0] : a[1] - b[1]);
 
-  print_interval() {
-    process.stdout.write(`[${this.start}, ${this.end}]`);
-  }
-}
-
-function merge(intervals) {
-  if (intervals.length < 2) {
-    return intervals;
-  }
-  // sort the intervals on the start time
-  intervals.sort((a, b) => a.start - b.start);
-  const mergedIntervals = [];
-
-  let start = intervals[0];
-  let end = intervals[0];
-
+  let current = intervals[0];
   for (let i = 1; i < intervals.length; i++) {
-    if (intervals[i].start <= end){
-        // overlapping intervals, adjust the 'end'
-        end = Math.max(intervals[i].end , end);
-    }else{
-        mergedIntervals.push(new Interval(start,end));
-        start = intervals[i].start;
-        end = intervals[i].end;
+    if (intervals[i][0] <= current[1]) {
+      current[1] = Math.max(current[1], intervals[i][1]);
+    } else {
+      result.push(current);
+      current = intervals[i];
     }
   }
 
-  // add the last interval
-  mergedIntervals.push(new Interval(start,end));
+  /* push final interval */
+  result.push(current);
 
-  return mergedIntervals;
-}
+  return result;
+};
 
-process.stdout.write("Merged intervals: ");
-let result = merge([
-  new Interval(1, 4),
-  new Interval(2, 5),
-  new Interval(7, 9),
-]);
-for (i = 0; i < result.length; i++) {
-  result[i].print_interval();
-}
-console.log();
-
-process.stdout.write("Merged intervals: ");
-result = merge([new Interval(6, 7), new Interval(2, 4), new Interval(5, 9)]);
-for (i = 0; i < result.length; i++) {
-  result[i].print_interval();
-}
-console.log();
-
-process.stdout.write("Merged intervals: ");
-result = merge([new Interval(1, 4), new Interval(2, 6), new Interval(3, 5)]);
-for (i = 0; i < result.length; i++) {
-  result[i].print_interval();
-}
-console.log();
+console.log(merge([[1, 3], [2, 6], [8, 10], [15, 18]]));
+console.log(merge([[1, 4], [4, 5]]));

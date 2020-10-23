@@ -2,91 +2,91 @@
 
 
 class MinHeap {
-    constructor() {
-      this.storage = [];
+  constructor() {
+    this.storage = [];
+  }
+
+  insert(val) {
+    this.storage.push(val);
+    this.bubbleUp();
+  }
+
+  swap(index1, index2) {
+    [this.storage[index1], this.storage[index2]] = [this.storage[index2], this.storage[index1]];
+  }
+
+  bubbleUp() {
+    let child = this.storage.length - 1;
+    let parent = this.getParent(child);
+
+    if (parent < 0) {
+      return;
     }
-  
-    insert(val) {
-      this.storage.push(val);
-      this.bubbleUp();
-    }
-  
-    swap(index1, index2) {
-      [this.storage[index1], this.storage[index2]] = [this.storage[index2],this.storage[index1]];
-    }
-  
-    bubbleUp() {
-      let child = this.storage.length - 1;
-      let parent = this.getParent(child);
-  
+
+    while (this.storage[child].interval.start < this.storage[parent].interval.start) {
+      this.swap(child, parent);
+      child = parent;
+      parent = this.getParent(child);
       if (parent < 0) {
-        return;
+        break;
       }
-  
-      while (this.storage[child].interval.start < this.storage[parent].interval.start) {
-        this.swap(child, parent);
-        child = parent;
-        parent = this.getParent(child);
-        if (parent < 0) {
-          break;
-        }
-      }
-    }
-  
-    getParent(child) {
-      let parent;
-      if (child % 2 === 0) {
-        parent = (child - 2) / 2;
-      } else {
-        parent = (child - 1) / 2;
-      }
-      return parent;
-    }
-  
-    getChild(parent) {
-      let rightChildIndex = 2 * parent + 2;
-      let leftChildIndex = 2 * parent + 1;
-  
-      if (this.storage[leftChildIndex] != undefined) {
-        if (this.storage[rightChildIndex] != undefined) {
-          if (
-            this.storage[leftChildIndex].interval.start < this.storage[rightChildIndex].interval.start
-          ) {
-            return leftChildIndex;
-          } else {
-            return rightChildIndex;
-          }
-        }
-        return leftChildIndex;
-      }
-      return null;
-    }
-  
-    bubbleDown() {
-      let parent = 0;
-      let child = this.getChild(parent);
-      if (child == null) return;
-  
-      while (this.storage[child].interval.start < this.storage[parent].interval.start) {
-        this.swap(parent, child);
-        parent = child;
-        child = this.getChild(parent);
-  
-        if (child == null) {
-          break;
-        }
-      }
-    }
-  
-    remove() {
-      this.swap(this.storage.length - 1, 0);
-  
-      let item = this.storage.pop();
-      this.bubbleDown();
-      
-      return item;
     }
   }
+
+  getParent(child) {
+    let parent;
+    if (child % 2 === 0) {
+      parent = (child - 2) / 2;
+    } else {
+      parent = (child - 1) / 2;
+    }
+    return parent;
+  }
+
+  getChild(parent) {
+    let rightChildIndex = 2 * parent + 2;
+    let leftChildIndex = 2 * parent + 1;
+
+    if (this.storage[leftChildIndex] != undefined) {
+      if (this.storage[rightChildIndex] != undefined) {
+        if (
+          this.storage[leftChildIndex].interval.start < this.storage[rightChildIndex].interval.start
+        ) {
+          return leftChildIndex;
+        } else {
+          return rightChildIndex;
+        }
+      }
+      return leftChildIndex;
+    }
+    return null;
+  }
+
+  bubbleDown() {
+    let parent = 0;
+    let child = this.getChild(parent);
+    if (child == null) return;
+
+    while (this.storage[child].interval.start < this.storage[parent].interval.start) {
+      this.swap(parent, child);
+      parent = child;
+      child = this.getChild(parent);
+
+      if (child == null) {
+        break;
+      }
+    }
+  }
+
+  remove() {
+    this.swap(this.storage.length - 1, 0);
+
+    let item = this.storage.pop();
+    this.bubbleDown();
+
+    return item;
+  }
+}
 
 
 class Interval {
@@ -103,8 +103,7 @@ class Interval {
 class EmployeeInterval {
   constructor(interval, employeeIndex, intervalIndex) {
     this.interval = interval; // interval representing employee's working hours
-    // index of the list containing working hours of this employee
-    this.employeeIndex = employeeIndex;
+    this.employeeIndex = employeeIndex;// index of the list containing working hours of this employee
     this.intervalIndex = intervalIndex; // index of the interval in the employee list
   }
 }
@@ -123,7 +122,7 @@ function find_employee_free_time(schedule) {
   while (minHeap.storage.length > 0) {
 
     const queueTop = minHeap.remove();
-    
+
     // if previousInterval is not overlapping with the next interval, insert a free interval
     if (previousInterval.end < queueTop.interval.start) {
       result.push(new Interval(previousInterval.end, queueTop.interval.start));
@@ -131,7 +130,7 @@ function find_employee_free_time(schedule) {
     } else { // overlapping intervals, update the previousInterval if needed
       if (previousInterval.end < queueTop.interval.end) {
         previousInterval = queueTop.interval;
-        
+
       }
     }
     // if there are more intervals available for(the same employee, add their next interval
@@ -150,37 +149,36 @@ function find_employee_free_time(schedule) {
 
 
 let input = [
-    [new Interval(1, 3), new Interval(5, 6)],
-    [new Interval(2, 3), new Interval(6, 8)],
-  ];
-  process.stdout.write('Free intervals: ', end = '');
-  let result = find_employee_free_time(input);
-  for (i = 0; i < result.length; i++) {
-    result[i].print_interval();
-  }
-  console.log();
-  
-  input = [
-    [new Interval(1, 3), new Interval(9, 12)],
-    [new Interval(2, 4)],
-    [new Interval(6, 8)],
-  ];
-  process.stdout.write('Free intervals: ', end = '');
-  result = find_employee_free_time(input);
-  for (i = 0; i < result.length; i++) {
-    result[i].print_interval();
-  }
-  console.log();
-  
-  input = [
-    [new Interval(1, 3)],
-    [new Interval(2, 4)],
-    [new Interval(3, 5), new Interval(7, 9)],
-  ];
-  process.stdout.write('Free intervals: ', end = '');
-  result = find_employee_free_time(input);
-  for (i = 0; i < result.length; i++) {
-    result[i].print_interval();
-  }
-  console.log();
-  
+  [new Interval(1, 3), new Interval(5, 6)],
+  [new Interval(2, 3), new Interval(6, 8)],
+];
+process.stdout.write('Free intervals: ', end = '');
+let result = find_employee_free_time(input);
+for (i = 0; i < result.length; i++) {
+  result[i].print_interval();
+}
+console.log();
+
+input = [
+  [new Interval(1, 3), new Interval(9, 12)],
+  [new Interval(2, 4)],
+  [new Interval(6, 8)],
+];
+process.stdout.write('Free intervals: ', end = '');
+result = find_employee_free_time(input);
+for (i = 0; i < result.length; i++) {
+  result[i].print_interval();
+}
+console.log();
+
+input = [
+  [new Interval(1, 3)],
+  [new Interval(2, 4)],
+  [new Interval(3, 5), new Interval(7, 9)],
+];
+process.stdout.write('Free intervals: ', end = '');
+result = find_employee_free_time(input);
+for (i = 0; i < result.length; i++) {
+  result[i].print_interval();
+}
+console.log();

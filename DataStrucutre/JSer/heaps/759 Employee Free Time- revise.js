@@ -85,66 +85,89 @@ class PriorityQueue {
   }
 }
 
-class Job {
-  constructor(start, end, cpuLoad) {
+//https://codeinterview.io/WSIOBZRBBA
+
+class Interval {
+  constructor(start, end) {
     this.start = start;
     this.end = end;
-    this.cpuLoad = cpuLoad;
   }
 }
 
-function find_max_cpu_load(jobs) {
-  // sort the jobs by start time
-  if (jobs == null || jobs == undefined || jobs.length < 1) return 0;
-  if (jobs.length == 1) return jobs[0].cpuLoad;
+class Employee {
+  constructor(interval, arrIndex, intIndex) {
+    this.interval = interval;
+    this.arrindex = arrIndex;
+    this.intIndex = intervalIndex;
+  }
+}
 
-  jobs.sort((a, b) => (a.start == b.start) ? (a.end - b.end) : (a.start - b.start));
 
-  let comparator = (a, b) => a.start - b.start;
+function employeeFreeTime(schedule) {
+  if (schedule == null || schedule.length == 0 || schedule[0].length == 1) return [];
+
+  let comparator = ((a, b) => a["interval"][0] - b["interval"][0]);
+
   let pq = new PriorityQueue(comparator);
 
-  let maxCPULoad = 0;
-  let currentLoad = 0;
-
-  for (let i = 0; i < jobs.length; i++) {
-    if (pq.storage.length > 0 && jobs[i].start >= pq.storage[0].end) {
-      //no overlapping remove previous load
-      let previousload = pq.poll();
-      currentLoad = currentLoad - previousload.cpuLoad;
-      //maxCPULoad = Math.max(currentLoad, maxCPULoad);
-    } else {
-      //overlapping, cpu is getting loaded, getting lot of jobs ot execute at once
-      currentLoad = currentLoad + jobs[i].cpuLoad;
-      pq.add(jobs[i]);
-      maxCPULoad = Math.max(currentLoad, maxCPULoad);
-    }
+  //add all 0 index of all empl in the heap
+  for (let i = 0; i < schedule.length; i++) {
+    pq.add(new Employee(schedule[i][0], i, 0));
   }
 
+  let currInterval = pq.storage[0]["interval"];
 
-  return maxCPULoad;
+  //stop condition of heap
+  while (pq.size > 0) {
+    let employee = pq.poll();
+
+    if (currInterval[1] < employee["interval"][0]) {
+      result.push([currInterval[1], employee["interval"][0]]);
+      currInterval = employee["interval"];
+    } else {
+      //interval overlaping
+      currInterval[1] = Math.max(currInterval[1], employee["interval"][1]);
+    }
+
+    //add into heap next interval index  of an empl
+    let employeeIndex = employee["arrindex"];
+    let intervalIndex = employee["intIndex"];
+
+    if (employee["intIndex"] + 1 < schedule[employeeIndex].length) {
+      pq.add(new Employee(
+        schedule[employeeIndex][intervalIndex + 1],
+        employeeIndex,
+        intervalIndex + 1
+      ))
+    }
+  }
+  return result;
 }
 
-console.log(
-  `Maximum CPU load at any time: ` +
-  `${find_max_cpu_load([
-    new Job(1, 4, 3),
-    new Job(2, 5, 4),
-    new Job(7, 9, 6),
-  ])}`
-);
-console.log(
-  `Maximum CPU load at any time: ` +
-  `${find_max_cpu_load([
-    new Job(6, 7, 10),
-    new Job(2, 4, 11),
-    new Job(8, 12, 15),
-  ])}`
-);
-console.log(
-  `Maximum CPU load at any time: ` +
-  `${find_max_cpu_load([
-    new Job(1, 4, 2),
-    new Job(2, 4, 1),
-    new Job(3, 6, 5),
-  ])}`
-);
+let input = [
+  [[1, 3], [5, 6]],
+  [[2, 3]],
+  [[6, 8]]
+];
+console.log(employeeFreeTime(input));
+
+input = [[[1, 3], [9, 12]], [[2, 4]], [[6, 8]]];
+console.log(employeeFreeTime(input));
+
+input = [[[1, 3]], [[2, 4]], [[3, 5], [7, 9]]];
+console.log(employeeFreeTime(input));
+
+input = [
+  [[1, 3], [6, 7]],
+  [[1, 3]],
+  [[4, 10]],
+];
+console.log(employeeFreeTime(input));
+
+input = [
+  [[1, 3], [6, 7]],
+  [[2, 4]],
+  [[2, 5], [9, 12]],
+];
+console.log(employeeFreeTime(input));
+
