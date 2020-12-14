@@ -40,20 +40,10 @@ class Trie {
     return current;
   }
 
-  // _search(word) {
-  //   let current = this.root;
-  //   let letter;
-  //   for (let i = 0; i < word.length; i++) {
-  //     letter = word[i];
-  //     if (current.next[letter] === undefined) { return null; }
-  //     current = current.next[letter];
-  //   }
-  //   return current;
-  // }
 
   isWord(word) {
     const current = this._search(word);
-    return current == null && current.end;
+    return current != null && current.end;
   }
 
   isPrefix(word) {
@@ -111,16 +101,20 @@ class Trie {
     if (Object.keys(current.next).length > 0) return;
 
     while (stack.length > 0) {
-        let previousLetter = current.value;
-        current = stack.pop();
-        
-        //Don not del if deleting eat will delete each
-        if (Object.keys(current.next).length > 1){
-            current.next[previousLetter].end = false;
-            return;
-        }
+      let previousLetter = current.value;
+      current = stack.pop();
 
-        delete current.next[previousLetter];
+      //Don not del if deleting eat will delete each
+      /* if (Object.keys(current.next).length > 1) {//code commented by ankit
+        current.next[previousLetter].end = false;
+        return;
+      } */
+
+      if (Object.keys(current.next).length) {
+        return;
+      }
+
+      delete current.next[previousLetter];
 
     }
   }
@@ -128,8 +122,8 @@ class Trie {
 
 let trie = new Trie();
 
-let words = ['ab', 'able', 'boot', 'book', 'bat', 'batter', 'eat', 'each', 
-'i like to eat cake', 'i like to eat pie', 'i like to eat pizza', 'i like to drink soda'];
+let words = ['ab', 'able', 'boot', 'book', 'bat', 'batter', 'eat', 'each',
+  'i like to eat cake', 'i like to eat pie', 'i like to eat pizza', 'i like to drink soda'];
 
 for (let i = 0; i < words.length; i++) {
   trie.insert(words[i]);
