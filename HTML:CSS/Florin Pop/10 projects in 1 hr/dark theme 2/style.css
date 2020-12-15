@@ -1,0 +1,70 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;600&display=swap");
+
+* {
+    box-sizing: border-box;
+}
+
+body{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Poppins", sans-serif;
+    margin:0;
+    min-height: 100vh;
+    flex-direction: column;
+    text-align: center;
+    padding: 5rem;
+}
+
+body.dark{
+    background-color: #292C35;
+    color: white;
+}
+
+input {
+    /* visibility: hidden; */
+}
+/* or */
+.checkbox{
+opacity: 0;
+position: absolute;
+}
+
+.label{
+   background-color: #111;
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+   width: 50px;
+   height:25px;
+   border-radius: 50px;
+   padding:5px;
+   position: relative;
+}
+.ball{
+    background-color: #fff;
+    position: absolute;
+    height: 22px;
+    width: 22px;
+    border-radius: 50%;
+    transition: transform 0.2s linear;
+}
+
+.checkbox:checked + .label {
+    background-color: purple;
+}
+
+.checkbox:checked + .label .ball{
+    transform: translateX(22px);
+}
+
+
+
+.fa-moon{
+    color:#f1c40f;
+}
+.fa-sun{
+    color:#f39c12;
+}
+
+
