@@ -28,17 +28,13 @@ body{
 .todo-wrapper{
     width: 400px;
     margin: auto 20%;
-   
 }
-
-
 
 .input {
     color: grey;
     border:none;
     padding: 1em 1.5rem;
     width: 100%;
-     
 }
 
 .input::placeholder{
@@ -55,8 +51,9 @@ form{
 
 .todo{
     list-style-type:none;
-    
     background-color: #fff;
+    height: 500px;
+    overflow-y: scroll;
 }
 
 .todo li{
