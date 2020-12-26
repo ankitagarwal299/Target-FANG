@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>todo-2</title>
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+        integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="todo-wrapper">
+        <div class="heading">todo</div>
+
+        <form id="todo-form">
+            <input type="text" placeholder="Whats next to do?" class="inputField" id="input-field">
+
+            <ul class="todo-list" id="todo-list">
+            </ul>
+            <div class="filters">
+                <p id="total-tasks"></p>
+                <p id="all-tasks">All</p>
+                <p id="completed-tasks" class="completed-tasks">Completed</p>
+                <p id="clear-tasks">Clear All</p>
+            </div>
+        </form>
+
+        <div class="footer">
+            <p><small>Right Click to delete list</small></p>
+            <p><small>left click to mark it done</small></p>
+        </div>
+    </div>
+
+
+    <script src="script.js"></script>
+</body>
+
+</html>
