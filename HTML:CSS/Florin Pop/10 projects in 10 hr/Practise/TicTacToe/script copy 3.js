@@ -101,11 +101,6 @@ function minimax(newboard, player) {
     return moves[bestMove];
 }
 
-function minimax(newBoard, player) {
-
-}
-
-
 
 function checkWin(board, player) {
     for (let [index, combo] of winCombos.entries()) {
@@ -134,8 +129,7 @@ function turn(sqaureId, player) {
         gameOver(gameWon);
         return;
     }
-    checkTie()
-
+    checkTie();
 }
 
 function turnClick(e) {

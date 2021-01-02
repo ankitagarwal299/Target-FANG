@@ -1,0 +1,86 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;600&display=swap");
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding:0;
+}
+
+body {
+     background-color: #f5f5f5;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+}
+
+
+.todo-wrapper{
+    /* border: 2px solid black; */
+     width:400px;
+}
+
+.heading {
+    font-size: 5rem;
+    color: rebeccapurple;
+    opacity: 0.4;
+    font-weight: 100;
+    text-align: center;
+}
+
+form{
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.inputField {
+    width: 100%;
+    padding: 1em 1em;
+    border: none;
+    outline: none;
+    border-radius: 10px;
+    height: 3rem;
+    color:#777;
+    font-size: 1em;
+}
+
+.inputField::placeholder {
+    padding: 0.5em 1em;
+     color:#777;
+}
+
+.todo-list {
+    list-style:none;
+    max-height: 500px;
+    overflow-y: scroll;
+}
+
+.todo-list li {
+    padding: 1em 1em;
+    border-top: 1px solid grey;
+    cursor: pointer;
+    color:#777;
+    background-color: #fff;
+}
+
+.todo-list li.completed{
+    text-decoration: line-through;
+    color:#c5c5c5;
+}
+
+.filters{
+display: flex;
+justify-content: space-evenly;
+color: rebeccapurple;
+cursor: pointer;
+font-size: 0.9em;
+padding: 0.5em 1em;
+font-weight: 300;
+}
+
+.footer{
+    padding: 1em 2em;
+    text-align: center;
+    opacity: 0.4;
+}
+
+
+
