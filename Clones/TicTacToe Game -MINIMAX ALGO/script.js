@@ -139,5 +139,5 @@ function minimax(newBoard, player) {
     }
   }
 
-  return moves[bestMove];
+  return [bestMove];
 }

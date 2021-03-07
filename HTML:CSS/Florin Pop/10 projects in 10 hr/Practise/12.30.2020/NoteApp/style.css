@@ -41,10 +41,9 @@ body {
     justify-content: flex-end;
     padding: 0.5em 1em;
     color: #fff;
-   
 }
 
-.notes .tools div{
+.notes .tools div {
     padding: 0 3px;
     cursor: pointer;
 }

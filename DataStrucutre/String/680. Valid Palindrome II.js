@@ -22,32 +22,41 @@ function validPalindrome(s, left = 0, right = s.length - 1, removedChars = 0) {
 //https://leetcode.com/problems/valid-palindrome-ii/discuss/423191/JavaScript-Solution-without-helper-function-less-memory-than-100-faster-than-70
 //https://leetcode.com/problems/valid-palindrome-ii/discuss/391809/Java-Solutions-to-Valid-Palindrome-I-and-II-with-Explanation-(SubPalindrome-Iteration-and-Recursion)
 // "abbbca"
+/**
+ * @param {string} s
+ * @return {boolean}
+ */
 function validPalindrome(s) {
-  let n = s.length();
-  for (let i = 0; i < n / 2; ++i) {
-    let left = i,
-      right = n - i - 1;
-    if (s.charAt(left) != s.charAt(right)) {// give a last chance
-      // delete char at left
-      if (validSubPalindrome(s, left + 1, right)) return true;
-      // delete char at right
-      return validSubPalindrome(s, left, right - 1);
-    }
-  }
-  return true;
-}
+  if (!(s && s.length > 0)) return "";
 
-function validSubPalindrome(st, lo, hi) {
-  let x = lo;
-  let y = hi;
-  while (x <= y) {
-    if (st[x++] != st[y--]) {
-      return false;
+  function validSub(s, left, right) {
+    while (left < right) {
+      if (s[left] != s[right]) {
+        return false;
+      }
+      left += 1;
+      right -= 1;
+
     }
+    return true;
+  }
+
+  let i = 0;
+  let j = s.length - 1;
+
+  while (i < j) {
+    if (s[i] != s[j]) {
+      if (validSub(s, i + 1, j)) return true;
+      return validSub(s, i, j - 1);
+    }
+    i += 1;
+    j -= 1;
   }
   return true;
+
+
+
 }
 /*   Time: O(N) since there are at most ~ 2N operations.
   Space: O(1) */
-  
-  
+

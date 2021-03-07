@@ -68,7 +68,7 @@ function updateLS() {
         if (note && note.value?.length) {
             notes.push(note.value);
         }
-    })
+    });
 
     localStorage.setItem('notes', JSON.stringify(notes));
 }

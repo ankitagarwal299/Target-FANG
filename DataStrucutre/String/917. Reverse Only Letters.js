@@ -1,37 +1,46 @@
 //https://www.youtube.com/watch?v=qVADz0khbH0&t=110s
 
-function isLetter(charCode) {
-  if (
-    (charCode >= 65 && charCode <= 90) ||
-    (charCode >= 97 && charCode <= 122)
-  ) {
-    return true;
-  }
-}
+/// Below is the best solution
+/**
+ * @param {string} S
+ * @return {string}
+ */
+var reverseOnlyLetters = function (S) {
 
-var reverseOnlyLetters = function (str) {
-  if (str == null || str.length == 0) return "";
+  if (!S && S.length) return "";
 
-  let char = str.split("");
+  let str = S.split('');//IMP conversion string into an array is required; to swap chars
 
   let i = 0;
-  let j = char.length - 1;
+  let j = str.length - 1;
 
-  while (i < j) {
-    while (i < j && !isLetter(char[i].charCodeAt())) {
-      i++;
+
+  function isLetter(char) {
+    if (!char) return;
+    if ((char.charCodeAt() >= 65 && char.charCodeAt() <= 90) || (char.charCodeAt() >= 97 && char.charCodeAt() <= 122)) {
+      return true;
     }
-
-    while (i < j && !isLetter(char[j].charCodeAt())) {
-      j--;
-    }
-
-    [char[i], char[j]] = [char[j], char[i]];
-    i++;
-    j--;
+    return false;
   }
 
-  return char.join("");
-};
+  while (i < j) {
 
-console.log(reverseOnlyLetters("Test1ng-Leet=code-Q!"));
+    if (!isLetter(str[i])) {
+      i++;
+      continue;
+    }
+
+    if (!isLetter(str[j])) {
+      j--;
+      continue;
+    }
+
+    [str[i], str[j]] = [str[j], str[i]];//here array can swap
+    i++;
+    j--;
+
+  }
+
+  return str.join('');//conversion back to string
+
+};

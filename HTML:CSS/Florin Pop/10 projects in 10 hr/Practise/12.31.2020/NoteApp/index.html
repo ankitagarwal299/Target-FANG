@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css"
+        integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+
+    <link rel="stylesheet" href="style.css">
+    <title>noteapp</title>
+</head>
+
+<body>
+    <div class="container">
+        <button class="add">Add</button>
+        <div class="notes">
+            <div class="tools">
+                <div><i class="far fa-edit"></i></div>
+                <div><i class="far fa-trash-alt"></i></div>
+            </div>
+            <div class="main">
+                <p class="hint"><small>Click edit-icon to write</small></p>
+            </div>
+            <textarea class="hidden"></textarea>
+        </div>
+
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/1.2.7/marked.min.js"
+        integrity="sha512-Sl04EWeJ0QgILm83WoubQbZqh71aWLJP8xnswnKSBI37S+ZtrWVtSHmd1YaYYdC1g9PWN1siY7KO2jU3HtCVHA=="
+        crossorigin="anonymous"></script>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

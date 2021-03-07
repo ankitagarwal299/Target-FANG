@@ -1,0 +1,53 @@
+*
+ {
+     box-sizing: border-box;
+ }
+
+ .container{
+   
+    display: flex;
+    flex-wrap: wrap;
+    position: absolute;
+ }
+
+ .addNew{
+     padding: 0.5rem 2rem;
+     background-color: green;
+     color:#fff;
+     border-radius: 30px;
+     position: fixed;
+     top:1rem;
+     right:1rem;
+ }
+
+ .note{
+     width: 300px;
+      margin:1rem;
+ }
+
+ .main{
+     height:400px;
+  background-color:#eee;
+  overflow:scroll;
+  padding: 1rem;
+ }
+
+textarea{
+     width: 300px;
+     height: 400px;
+}
+ .tools{
+    background-color: green;
+    padding: 0.5rem 1rem;
+   height: 2rem;
+ }
+
+ .tools i{
+      color:#fff;
+    float: right;
+ }
+
+ .hidden{
+     display: none;
+ }
+

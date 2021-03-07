@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoComplete- Trie</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+</head>
+
+<body>
+    <div class="container">
+        <header>
+
+            <h2>AutoComplete With Tries</h2>
+
+        </header>
+        <main>
+            <!-- <input type="text" name="" > -->
+
+            <div class="input-group input-group-sm mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-sm">search</span>
+                </div>
+                <input id="searchField" type="text" class="form-control" aria-label="Sizing example input"
+                    aria-describedby="inputGroup-sizing-sm">
+            </div>
+            <ul class="list-group" id="suggestions">
+                <!-- <li class="list-group-item" onclick="handleClick(this)">
+                   <b>${str}</b> ${prediction.slice(str.length)}</li> -->
+            </ul>
+        </main>
+    </div>
+    <script src="trie.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
