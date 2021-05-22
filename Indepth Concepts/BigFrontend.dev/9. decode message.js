@@ -8,17 +8,15 @@ function decode(message) {
     let col = 0;
     let result = '';
 
+    result += message[row++][col++];//added this for edge cases like [["A"]] or [["A"]["B"]]
+
     while (col < cols) {
         while (row < rows - 1) {
-            result += message[row][col];
-            row += 1;
-            col += 1;
+            result += message[row++][col++];
         }
 
         while (row > 0 && message[row][col]) {
-            result += message[row][col];
-            row -= 1;
-            col += 1;
+            result += message[row--][col++];
         }
     }
 

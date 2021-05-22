@@ -1,5 +1,6 @@
 /* 
-You are given coins of different denominations and a total amount of money. Write a function to compute the number of combinations that make up that amount. You may assume that you have infinite number of each kind of coin.
+You are given coins of different denominations and a total amount of money. Write a function to compute the number of combinations that make up that amount. 
+You may assume that you have infinite number of each kind of coin.
 
  
 
@@ -24,17 +25,17 @@ Output: 1
  */
 
 function coinSum(coins, total) {
-    let table = new Array(total + 1);
-    table.fill(0);
-    table[0] = 1;
-  
-    coins.forEach(coin => {
-      for (let i = coin; i < table.length; i++) {
-        table[i] = table[i] + table[i - coin];
-      }
-    })
-  
-    return table[table.length - 1];
-  }
-  
-  console.log(coinSum([1, 2, 3], 5));
+  let table = new Array(total + 1);
+  table.fill(0);
+  table[0] = 1;
+
+  coins.forEach(coin => {
+    for (let i = coin; i < table.length; i++) {
+      table[i] = table[i] + table[i - coin];
+    }
+  })
+
+  return table[table.length - 1];
+}
+
+console.log(coinSum([1, 2, 3], 5));
