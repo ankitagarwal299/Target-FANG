@@ -471,9 +471,9 @@ console.log(queensAttacktheKing(queens, king));
 
 
 //leetcode 1219. Path with Maximum Gold
-1. Attempted Similar to Flood fill
-2. Attempted Similar to Island
-3. Conflicting with leetcode solution
+// 1. Attempted Similar to Flood fill (AllFloodQuestions.js)
+// 2. Attempted Similar to Island
+// 3. Conflicting with leetcode solution
 //https://www.youtube.com/watch?v=lNwXq3Ki32I&list=PL-Jc9J83PIiHO9SQ6lxGuDsZNt2mkHEn0&index=8
 var getMaximumGold = function (grid) {
 
@@ -535,5 +535,164 @@ let grid = [
     [9, 0, 20]
 ]
 console.log(getMaximumGold(grid));
+
+
+//64. Minimum Path Sum -- Very Easy
+var minPathSum = function (grid) {
+    if (grid == null || grid.length == 0 || grid[0].length == 0) return 0;
+
+    let dp = new Array(grid.length).fill(0).map(_ => new Array(grid[0].length).fill(0));
+
+    for (let i = dp.length - 1; i >= 0; i--) {
+        for (let j = dp[0].length - 1; j >= 0; j--) {
+            //Case1: Bottom Last box
+            if (i == dp.length - 1 && j == dp[0].length - 1) {
+                dp[i][j] = grid[i][j];
+
+            } else if (i == dp.length - 1) {
+                //Case2: Last row
+                dp[i][j] = grid[i][j] + dp[i][j + 1];
+            } else if (j == dp[0].length - 1) {
+                //Case3: Last Column
+                dp[i][j] = grid[i][j] + dp[i + 1][j];
+            } else {
+                dp[i][j] = grid[i][j] + Math.min(dp[i + 1][j], dp[i][j + 1]);
+            }
+
+        }
+    }
+    return dp[0][0];
+
+};
+//https://www.youtube.com/watch?v=BzTIOsC0xWM&t=0s
+let grid = [[1, 3, 1], [1, 5, 1], [4, 2, 1]]
+console.log(minPathSum(grid));
+
+let grid1 = [[2, 8, 41, 6, 4, 2], [6, 0, 9, 53, 8, 5], [1, 4, 3, 4, 0, 6, 5], [6, 4, 7, 2, 4, 6, 1], [1, 0, 3, 7, 1, 2, 7], [1, 5, 3, 2, 3, 0, 9], [2, 2, 5, 1, 9, 8, 0]];
+console.log(minPathSum(grid1));
+
+//print all paths -- Very Easy Extend of above
+//print all paths
+var minPathSum = function (grid) {
+    if (grid == null || grid.length == 0 || grid[0].length == 0) return 0;
+
+    let dp = new Array(grid.length).fill(0).map(_ => new Array(grid[0].length).fill(0));
+
+    for (let i = dp.length - 1; i >= 0; i--) {
+        for (let j = dp[0].length - 1; j >= 0; j--) {
+            //Case1: Bottom Last box
+            if (i == dp.length - 1 && j == dp[0].length - 1) {
+                dp[i][j] = grid[i][j];
+
+            } else if (i == dp.length - 1) {
+                //Case2: Last row
+                dp[i][j] = grid[i][j] + dp[i][j + 1];
+            } else if (j == dp[0].length - 1) {
+                //Case3: Last Column
+                dp[i][j] = grid[i][j] + dp[i + 1][j];
+            } else {
+                dp[i][j] = grid[i][j] + Math.min(dp[i + 1][j], dp[i][j + 1]);
+            }
+
+        }
+    }
+    //return dp[0][0];
+    console.log(dp)
+
+    //print all paths of minimum cost
+    let paths = printAllPaths(dp);
+    return paths;
+
+};
+
+function Pair(psf, row, col) {
+    this.psf = psf;
+    this.row = row;
+    this.col = col;
+}
+
+function printAllPaths(dp) {
+    let queue = [new Pair("", 0, 0)];
+    let allPaths = [];
+
+    while (queue.length > 0) {
+        let node = queue.shift();
+
+        //Last box/end point
+        if (node.row == dp.length - 1 && node.col == dp[0].length - 1) {
+            allPaths.push(node.psf);
+        } else if (node.row == dp.length - 1) {
+            queue.push(new Pair(node.psf + "H", node.row, node.col + 1));
+        }
+        else if (node.col == dp[0].length - 1) {
+            queue.push(new Pair(node.psf + "V", node.row + 1, node.col));
+        } else if (dp[node.row][node.col + 1] == dp[node.row + 1][node.col]) {
+            queue.push(new Pair(node.psf + "H", node.row, node.col + 1));
+            queue.push(new Pair(node.psf + "V", node.row + 1, node.col));
+        } else {
+            if (dp[node.row][node.col + 1] < dp[node.row + 1][node.col]) {
+                queue.push(new Pair(node.psf + "H", node.row, node.col + 1));
+            } else {
+                queue.push(new Pair(node.psf + "V", node.row + 1, node.col));
+            }
+        }
+    }
+    return allPaths;
+}
+
+let grid1 = [[2, 6, 4, 1, 3], [9, 1, 1, 0, 5], [0, 7, 5, 2, 0], [0, 4, 3, 0, 7], [2, 0, 4, 3, 1]];
+let grid2 = [[2, 6, 1, 1, 3], [9, 1, 1, 0, 5], [0, 7, 5, 2, 0], [4, 3, 0, 4, 7], [2, 0, 1, 4, 1]];
+//https://www.youtube.com/watch?v=f8Vdifn2YjQ&list=PL-Jc9J83PIiEZvXCn-c5UIBvfT8dA-8EG&index=10
+console.log(minPathSum(grid2));
+
+
+//Gold Dig from left to right  -- Very Easy
+//Find path where to start digging to find maximum gold
+var pathMaxGol = function (grid) {
+    console.log("sdfdsf")
+    if (grid == null || grid.length == 0 || grid[0].length == 0) return 0;
+    //let dp =0;
+    //let dp =  new Array(grid.length).fill(0).map(_ => new Array(grid[0].length).fill(0));
+    let dp = new Array(grid.length).fill(0).map(_ => new Array(grid[0].length).fill(0));
+
+
+    /* Trick to start with last column and loop each row - Very unique */
+    for (let col = dp[0].length - 1; col >= 0; col--) {
+        for (let row = 0; row < dp.length; row++) {
+            if (col == dp[0].length - 1) {
+                //Case1: Last column
+                dp[row][col] = grid[row][col];
+            } else if (row == 0) {
+                dp[row][col] = grid[row][col] + Math.max(dp[row][col + 1], dp[row + 1][col + 1]);
+            } else if (row == dp.length - 1) {
+                dp[row][col] = grid[row][col] + Math.max(dp[row - 1][col + 1], dp[row][col + 1]);
+            } else {
+                dp[row][col] = grid[row][col] + Math.max(dp[row - 1][col + 1], dp[row][col + 1], dp[row + 1][col + 1]);
+
+            }
+        }
+    }
+    console.log(dp)
+    let maxGoldCollected = dp[0][0];
+    for (let row = 1; row < dp.length; row++) {
+        maxGoldCollected = Math.max(maxGoldCollected, dp[row][0]);
+    }
+    return maxGoldCollected;
+
+
+};
+
+let grid2 = [
+    [0, 1, 4, 2, 8, 2],
+    [4, 3, 6, 5, 0, 4],
+    [1, 2, 4, 1, 4, 6],
+    [2, 0, 7, 3, 2, 2],
+    [3, 1, 5, 9, 2, 4],
+    [2, 7, 0, 8, 5, 1]
+];
+//https://www.youtube.com/watch?v=hs0lilfJ7C0&t=773s
+console.log(pathMaxGol(grid2));
+
+
 
 

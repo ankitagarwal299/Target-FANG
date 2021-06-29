@@ -1261,3 +1261,39 @@ function deSerialize(arr) {
 let root = deSerialize([1, 2, 3]);
 
 console.log(getTargetCopy(root));
+
+
+//337. House Robber III --- Very easy
+function TreeNode(val, left, right) {
+    this.val = (val === undefined ? 0 : val);
+    this.left = (left === undefined ? null : left);
+    this.right = (right === undefined ? null : right);
+}
+
+class HousePair {
+    withRobbery = 0;
+    withoutRobbery = 0;
+}
+var rob = function (root) {
+
+    if (root == null) return 0;
+
+
+    function dfs(root) {
+        if (root == null) return new HousePair();
+        let left = dfs(root.left);
+        let right = dfs(root.right);
+
+        let answerPair = new HousePair();
+        answerPair.withRobbery = left.withoutRobbery + root.val + right.withoutRobbery;
+
+        answerPair.withoutRobbery = Math.max(left.withRobbery, left.withoutRobbery) + Math.max(right.withRobbery, right.withoutRobbery)
+        return answerPair;
+    }
+
+    let finalResult = dfs(root);
+
+    return Math.max(finalResult.withRobbery, finalResult.withoutRobbery);
+};
+//https://www.youtube.com/watch?v=kTL5LhCTL1c
+console.log(robIII([3, 2, 3, null, 3, null, 1]));

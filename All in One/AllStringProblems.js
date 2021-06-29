@@ -334,34 +334,6 @@ console.log(maxSumLIS([10, 22, 9, 33, 21, 50, 41, 60, 80, 1]));
 console.log(maxSumLIS([10, 22, 9, 33]));
 
 
-//Kadane's Algorithm 
-//53. Maximum Subarray
-var maxSubArray = function (nums) {
-    if (nums == null || nums.length == 0) return 0;
-    if (nums.length == 1) return nums[0];
-
-    let maxSum = nums[0];//initialize with 1st num [-1,-2]
-    let currSum = nums[0];//initialize with 1st num [-1,-2]
-
-    //Kadane's Algorithm - start decision from 2nd elem
-    for (let i = 1; i < nums.length; i++) {
-
-        if (currSum + nums[i] > nums[i]) {
-            currSum += nums[i];
-        } else {
-
-            currSum = nums[i];
-        }
-        maxSum = Math.max(currSum, maxSum);
-    }
-    return maxSum;
-};
-console.log(maxSubArray([-2, 1, -3, 4, -1, 2, 1, -5, 4]));
-console.log(maxSubArray([-1, -2]));
-
-
-
-
 //https://www.youtube.com/watch?v=9UEHPiK53BA&list=PL-Jc9J83PIiEZvXCn-c5UIBvfT8dA-8EG&index=11
 //940. Distinct Subsequences II
 var distinctSubseqII = function (S) {
@@ -445,14 +417,172 @@ var longestCommonSubsequence = function (text1, text2) {
     }
 
     return dp[text1.length][text2.length];
+    //https://www.youtube.com/watch?v=0Ql40Llp09E&list=PL-Jc9J83PIiEZvXCn-c5UIBvfT8dA-8EG&index=17
+};
+console.log(longestCommonSubsequence("leetcode", "etco"));
+
+
+
+//583. Delete Operation for Two Strings - strategy to find LCSubsequnce - Very Easy
+var minDistance = function (word1, word2) {
+
+
+    let dp = new Array(word1.length + 1).fill(0).map(_ => new Array(word2.length + 1).fill(0));
+
+    for (let row = 1; row < dp.length; row++) {
+        for (let col = 1; col < dp[0].length; col++) {
+            let char1 = word1[row - 1];
+            let char2 = word2[col - 1];
+
+            if (char1 == char2) {
+                dp[row][col] = dp[row - 1][col - 1] + 1;
+            } else {
+                dp[row][col] = Math.max(dp[row - 1][col], dp[row][col - 1]);
+            }
+        }
+    }
+
+    let lcs = dp[word1.length][word2.length];
+    let minDelText1 = word1.length - lcs;
+    let minDelText2 = word2.length - lcs;
+
+    return minDelText1 + minDelText2;
 };
 
-// /https://www.youtube.com/watch?v=NvmJBCn4eQI&list=PL-Jc9J83PIiEZvXCn-c5UIBvfT8dA-8EG&index=38
+
 //Leetcode 1143. Longest Common Subsequence
-console.log(longestCommonSubsequence("pqabcxy", "xyzabcp"));
+//https://www.youtube.com/watch?v=0Ql40Llp09E&list=PL-Jc9J83PIiEZvXCn-c5UIBvfT8dA-8EG&index=17
+//https://www.youtube.com/watch?v=a1bWbgt5geU&list=PL-Jc9J83PIiEZvXCn-c5UIBvfT8dA-8EG&index=47
+console.log(minDistance("leetcode", "etco"));
+
+
+//161:	One Edit Distance - Very Easy
+/* 
+    You have the following three operations permitted on a word:
+    Insert a character
+    Delete a character
+    Replace a character
+ */
+var oneEditDistance = function (word1, word2) {
+    let dp = new Array(word1.length + 1).fill(0).map(_ => new Array(word2.length + 1).fill(0));
+
+    for (let row = 1; row < dp.length; row++) {
+        for (let col = 1; col < dp[0].length; col++) {
+            let char1 = word1[row - 1];
+            let char2 = word2[col - 1];
+
+            if (char1 == char2) {
+                dp[row][col] = dp[row - 1][col - 1] + 1;
+            } else {
+                dp[row][col] = Math.max(dp[row - 1][col], dp[row][col - 1]);
+            }
+        }
+    }
+    let lcs = dp[word1.length][word2.length];
+    let minDelText1 = word1.length - lcs;
+    let minDelText2 = word2.length - lcs;
+
+    return (minDelText1 + minDelText2) == 1 ? true : false;
+};
+console.log(oneEditDistance("ab", "acb"));
+console.log(oneEditDistance("", ""));
 
 
 
+//72. Edit Distance - How many minimum operations, Is is possible to count the operations also
+/*
+    You have the following three operations permitted on a word:
+    Insert a character
+    Delete a character
+    Replace a character
+ */
+/**
+ * @param {string} word1
+ * @param {string} word2
+ * @return {number}
+ */
+var editDistance = function (word1, word2) {
+    let dp = new Array(word1.length + 1).fill(0).map(_ => new Array(word2.length + 1).fill(0));
+    for (let i = 0; i < dp.length; i++) {
+        dp[i][0] = i
+    }
+
+    for (let i = 0; i < dp[0].length; i++) {
+        dp[0][i] = i
+    }
+
+    for (let i = 1; i < dp.length; i++) {
+        for (let j = 1; j < dp[0].length; j++) {
+            if (word1.charAt(i - 1) == word2.charAt(j - 1)) {
+                dp[i][j] = dp[i - 1][j - 1];
+            } else {
+                dp[i][j] = 1 + Math.min(dp[i][j - 1], dp[i - 1][j - 1], dp[i - 1][j]);
+            }
+        }
+    }
+
+    return dp[word1.length][word2.length];
+
+};
+console.log(editDistance("horse", "ros"));//3
+/* Explanation:
+horse -> rorse(replace 'h' with 'r')
+rorse -> rose(remove 'r')
+rose -> ros(remove 'e') */
+
+
+var editDistance = function (word1, word2) {
+    let dp = new Array(word1.length + 1).fill(0).map(_ => new Array(word2.length + 1).fill(0));
+    for (let i = 0; i < dp.length; i++) {
+        dp[i][0] = i
+    }
+
+    for (let i = 0; i < dp[0].length; i++) {
+        dp[0][i] = i
+    }
+
+    for (let i = 1; i < dp.length; i++) {
+        for (let j = 1; j < dp[0].length; j++) {
+            if (word1.charAt(i - 1) == word2.charAt(j - 1)) {
+                dp[i][j] = dp[i - 1][j - 1];
+            } else {
+                dp[i][j] = 1 + Math.min(dp[i][j - 1], dp[i - 1][j - 1], dp[i - 1][j]);
+            }
+        }
+    }
+    console.log(dp);
+    printActualEdits(dp, word1, word2)
+    return dp[word1.length][word2.length];
+
+};
+console.log(editDistance("horse", "ros"));//3
+
+
+
+function printActualEdits(dp, str1, str2) {
+    let i = dp.length - 1;
+    let j = dp[0].length - 1;
+
+    while (true) {
+        if (i == 0 || j == 0) {
+            break;
+        }
+        if (str1.charAt(i - 1) == str2.charAt(j - 1)) {
+            i = i - 1;
+            j = j - 1;
+        } else if (dp[i][j] == dp[i - 1][j - 1] + 1) {
+            console.log("Edit " + str2.charAt(j - 1) + " in string2 to " + str1.charAt(i - 1) + " in string1");
+            i = i - 1;
+            j = j - 1;
+        } else if (dp[i][j] == dp[i - 1][j] + 1) {
+            console.log("Delete in string1 " + str1.charAt(i - 1));
+            i = i - 1;
+        } else if (dp[i][j] == dp[i][j - 1] + 1) {
+            System.out.println("Delete in string2 " + str2.charAt(j - 1));
+            j = j - 1;
+        }
+    }
+}
 
 ///Leetcode 1143. Longest Common Subsequence  - {Print those chars}
 var shortestCommonSupersequence = function (text1, text2) {
@@ -504,7 +634,7 @@ var shortestCommonSupersequence = function (text1, text2) {
 };
 
 
-console.log(longestCommonSubsequence("abcdaf", "acbcf"));
+console.log(shortestCommonSupersequence("abcdaf", "acbcf"));
 
 
 
@@ -559,7 +689,7 @@ var shortestCommonSupersequence = function (text1, text2) {
 };
 
 //https://www.youtube.com/watch?v=0Ql40Llp09E&list=PL-Jc9J83PIiEZvXCn-c5UIBvfT8dA-8EG&index=19
-console.log(longestCommonSubsequence("abac", "cab"));//"cabac"
+console.log(shortestCommonSupersequence("abac", "cab"));//"cabac"
 
 
 //5. Longest Palindromic Substring
@@ -789,3 +919,130 @@ console.log(countPalindromeSubsequence("cddpd"));
 console.log(countPalindromeSubsequence("pqr"));//3
 console.log(countPalindromeSubsequence("abccbc"));//16
 console.log(countPalindromeSubsequence("ccbbgd"));//8
+
+
+
+//Longest Increasing Subsequence ImPlementation  - LIS based questions
+
+//1 - Non Overlapping Bridges -- Easy and clear in the vedio
+var nonOverlappingBridges = function (num, arr) {
+
+    arr.sort((a, b) => a[0] - b[0]);
+
+
+    //Below is LIS code ...cramm this
+    let dp = new Array(num);
+    let omax = 0;
+    for (let i = 0; i < dp.length; i++) {
+        let max = 0;
+        for (let j = 0; j < i; j++) {
+            if (arr[j][1] <= arr[i][1]) {
+                if (dp[j] > max) {
+                    max = dp[j];
+                }
+            }
+        }
+        dp[i] = max + 1;
+
+        if (dp[i] > omax) {
+            omax = dp[i];
+        }
+    }
+    return omax;
+
+};
+
+//https://www.youtube.com/watch?v=o1h3aoeSTOU&list=PL-Jc9J83PIiEZvXCn-c5UIBvfT8dA-8EG&index=4
+console.log(nonOverlappingBridges(10, [[10, 20], [2, 7], [8, 15], [17, 3], [21, 40], [50, 4], [41, 57], [60, 80], [80, 90], [1, 30]]));
+
+
+//2 - Russian Envelop -- Easy and clear in the vedio
+var russianEnvelopProblem = function (num, arr) {
+
+    arr.sort((a, b) => a[0] - b[0]);
+
+
+    //Below is LIS code ...cramm this
+    let dp = new Array(num);
+    let omax = 0;
+    for (let i = 0; i < dp.length; i++) {
+        let max = 0;
+        for (let j = 0; j < i; j++) {
+            if (arr[j][1] < arr[i][1]) {//only difference is <=
+                if (dp[j] > max) {
+                    max = dp[j];
+                }
+            }
+        }
+        dp[i] = max + 1;
+
+        if (dp[i] > omax) {
+            omax = dp[i];
+        }
+    }
+    return omax;
+
+};
+
+//https://www.youtube.com/watch?v=Mud_QjUwbw8&list=PL-Jc9J83PIiEZvXCn-c5UIBvfT8dA-8EG&index=6
+console.log(russianEnvelopProblem(11, [[17, 5], [26, 18], [25, 34], [48, 84], [63, 72], [42, 86], [9, 55], [4, 70], [21, 45], [68, 76], [58.51]]));
+
+
+//Leetcode 279 Perfect Squares Dynamic Programming
+
+//https://www.youtube.com/watch?v=aZuQXkO0-XA&list=PL-Jc9J83PIiEZvXCn-c5UIBvfT8dA-8EG&index=35
+
+
+
+
+
+//-------------Kadane's Algorithm --------------
+//53. Maximum Subarray
+var maxSubArray = function (nums) {
+    if (nums == null || nums.length == 0) return 0;
+    if (nums.length == 1) return nums[0];
+
+    let maxSum = nums[0];//initialize with 1st num [-1,-2]
+    let currSum = nums[0];//initialize with 1st num [-1,-2]
+
+    //Kadane's Algorithm - start decision from 2nd elem
+    for (let i = 1; i < nums.length; i++) {
+
+        if (currSum + nums[i] > nums[i]) {
+            currSum += nums[i];
+        } else {
+
+            currSum = nums[i];
+        }
+        maxSum = Math.max(currSum, maxSum);
+    }
+    return maxSum;
+};
+console.log(maxSubArray([-2, 1, -3, 4, -1, 2, 1, -5, 4]));
+console.log(maxSubArray([-1, -2]));
+
+//Kadane's Algorithm 
+//Maximum Difference of Zeros & Ones in Binary String in O(n) Time | Dynamic Programming
+var maxSubArray = function (str) {
+    let overallSum = 0;
+    let currSum = 0;
+
+    for (let i = 0; i < str.length; i++) {
+        if (str.charAt(i) == '1') {
+            currSum += -1;
+
+            if (currSum < 0) {
+                currSum = 0;
+            }
+        } else {
+            currSum += 1;
+
+            if (currSum > overallSum) {
+                overallSum = currSum;
+            }
+        }
+    }
+    return overallSum;
+};
+//https://www.youtube.com/watch?v=_k_Codwq1ls&list=PL-Jc9J83PIiEZvXCn-c5UIBvfT8dA-8EG&index=41
+console.log(maxSubArray("11000010001"));

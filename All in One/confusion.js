@@ -82,5 +82,11 @@ console.log([...myMap]);
 console.log(Array.from(myMap.keys()));
 
 
+console.log("----------------------------MAX_SAFE NUMBER----------------------");
+
+Number.MAX_VALUE(1.79E+308, or 2 ^ 1024)
+Number.MAX_SAFE_INTEGER(2 ^ 53 - 1)
+
+
 
 

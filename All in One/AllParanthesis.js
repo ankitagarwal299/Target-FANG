@@ -177,6 +177,8 @@ var removeInvalidParentheses = function (s) {
 
     return Array.from(set);
 };
+
+
 function getMinParenToRemove(str) {
     let close = 0;
     let open = 0;
@@ -211,3 +213,38 @@ console.log(removeInvalidParentheses("())v)(()(((((())"));// Time Limit Exceeded
 ['(())()', '()()()']
 ['(v)()(())', '(v)(()())', '()v()(())', '()v(()())'] */
 
+
+//Catalan Number - No. of ways/arrange Valid Parantheis
+
+
+//1. Combinations of Balanced Parentheses Dynamic Programming | Count Valid Parentheses
+//2. Combinations of Balanced Parentheses Dynamic Programming | Count Number of BST
+//3. Counting Valleys And Mountains Dynamic Programming
+function countValidParanthesis(num) {
+    let dp = new Array(num + 1).fill(0);
+    dp[0] = 1;
+    dp[1] = 1;
+
+    for (let i = 2; i <= num; i++) {
+        let inside = i - 1;
+        let outside = 0;
+
+        while (inside >= 0) {
+            dp[i] += dp[inside] * dp[outside];
+            inside--;
+            outside++;
+        }
+    }
+
+    return dp[num];
+}
+console.log(countValidParanthesis(4));
+
+
+//https://www.youtube.com/watch?v=n-8R95-5MXw&list=PL-Jc9J83PIiEZvXCn-c5UIBvfT8dA-8EG&index=26
+//https://www.youtube.com/watch?v=H1qjjkm3P3c&list=PL-Jc9J83PIiEZvXCn-c5UIBvfT8dA-8EG&index=24
+//https://www.youtube.com/watch?v=hM_FJnrP1kk&list=PL-Jc9J83PIiEZvXCn-c5UIBvfT8dA-8EG&index=23
+
+
+//https://leetcode.com/problems/longest-valid-parentheses/discuss/555969/JS-No-magic-%3A(-%3A-approach-2-Beats-99-2-approaches-to-choose-from.-Feedback-is-welcome.
+//32. Longest Valid Parentheses

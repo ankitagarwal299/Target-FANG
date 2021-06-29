@@ -471,6 +471,34 @@ console.log(canConstruct("purple", ["purp", "p", "ur", "le", "purpl"]));
 console.log(canConstruct("skateboard", ["bo", "rd", "ate", "t", "ska", "sk", "boar"]));
 //console.log(canConstruct("enterapotentpot", ["a", "p", "ent", "enter", "ot", "o", "t"]));
 
+//149 https://leetcode.com/problems/word-break-ii/
+var wordBreak = function (s, wordDict) {
+    if (s == null || s.length == 0) return [];
+    if (wordDict == null || wordDict.length == 0) return [];
+
+    let result = [];
+    function traverse(targetStr) {
+        if (targetStr.length == 0 || targetStr == "") return [[]];
+        if (targetStr.length < 0) return false;
+
+        let allCombinations = [];
+        for (let i = 0; i < wordDict.length; i++) {
+            if (targetStr.slice(0, wordDict[i].length) == wordDict[i]) {
+                let remainderCombination = traverse(targetStr.slice(wordDict[i].length));
+                //if(remainderCombination){
+                let combination = remainderCombination.map((subarr) => [wordDict[i], ...subarr]);
+                allCombinations.push(...combination)
+                // }
+            }
+        }
+
+        return allCombinations;
+    }
+    return traverse(s).map((sub) => sub.join(' '));
+}
+//https://www.youtube.com/watch?v=2NaaM_z_Jig&list=PL-Jc9J83PIiEZvXCn-c5UIBvfT8dA-8EG&index=50
+//https://leetcode.com/problems/word-break-ii/discuss/764151/JavaScript-75-80ms-Heavily-Commented-DP
+console.log(wordBreak("pepcodinglovesmangoicecream", ["loves", "pep", "coding", "pepcoding", "icecream", "ice", "cream", "man", "go", "mango"]))
 
 
 //Leetcode 322. Coin Change ->>Best Way and what are the coins to form best ways
@@ -1465,10 +1493,220 @@ console.log(`Total knapsack profit: ---> ${solveKnapsack(profits, weights, 7)}`)
 
 
 
+//1st Approach print there - Very Easy- Basics -
+//print all paths
+function printStairCasePaths(finalStep) {
+
+
+    function climbStairs(currStep, pathSofar) {
+        if (currStep == 0) console.log(pathSofar);
+
+        if (currStep < 0) return null;
+
+        climbStairs(currStep - 1, pathSofar + "1");
+        climbStairs(currStep - 2, pathSofar + "2");
+        climbStairs(currStep - 3, pathSofar + "3");
+
+    }
+    climbStairs(4, "");
+
+}
+//https://www.youtube.com/watch?v=NEuYcztalew
+console.log(printStairCasePaths(4));
+
+
+
+//2nd Approach return all paths in Array -  Backtracking
+//print all paths
+function printStairCasePaths(finalStep) {
+
+    function climbStairs(currStep) {
+
+        if (currStep == 0) return [""];
+        if (currStep < 0) return [];
+
+        let path1 = climbStairs(currStep - 1);
+        let path2 = climbStairs(currStep - 2);
+        let path3 = climbStairs(currStep - 3);
+
+        //Post Order Traversal
+        let currPath = [];
+        console.log(path1, path2, path3)
+        for (let i = 0; i < path1.length; i++) {
+            currPath.push("1" + path1[i]);
+        }
+
+
+        for (let i = 0; i < path2.length; i++) {
+            currPath.push("2" + path2[i]);
+        }
+
+        for (let i = 0; i < path3.length; i++) {
+            currPath.push("3" + path3[i]);
+        }
+
+        return currPath;
+
+    }
+    return climbStairs(finalStep);
+
+}
+//https://www.youtube.com/watch?v=hMJAlbJIS7E
+console.log(printStairCasePaths(4));
+
+
+//70. Climbing Stairs
+var climbStairs = function (n) {
+    if (!n || n <= 1) return n;
+    let cache = {}; //MEMOIZATION
+
+    function climb(step) {
+        if (step in cache) return cache[step];
+
+        if (step == n) return 1;
+        if (step > n) return 0;
+
+        cache[step] = climb(step + 1) + climb(step + 2);
+        return cache[step];
+    }
+
+    //return climb(0);
+    cache[n] = climb(0);
+    return cache[n]
+};
+
+
+//https://www.youtube.com/watch?v=A6mOASLl2Dg&list=PL-Jc9J83PIiG8fE6rj9F5a6uyQ5WPdqKy&index=3
+var climbStairs = function (n) {
+    if (!n || n <= 1) return n;
+
+    let dp = new Array(n + 1).fill(0); //TABULATION
+    dp[0] = 1;
+
+    for (let i = 1; i <= n; i++) {
+        if (i == 1) {
+            dp[i] = dp[i - 1];
+        } else if (i == 2) {
+            dp[i] = dp[i - 1] + dp[i - 2];
+        } else {
+            dp[i] = dp[i - 1] + dp[i - 2] + dp[i - 3];
+        }
+    }
+    return dp[n];
+};
+
+
+//Climb Stirs with Variable Jumps -- Very IMP
+var climbStairs = function (n, arr) {
+
+    let dp = new Array(n + 1).fill(0); //TABULATION
+    dp[n] = 1;
+
+    for (let i = n - 1; i >= 0; i--) {
+        for (let j = 1; j <= arr[i] && i + j < dp.length; j++) {
+            dp[i] += dp[i + j];
+        }
+    }
+    console.log(dp)
+    return dp[0];
+};
+//https://www.youtube.com/watch?v=uNqoQ0sNZCM&list=PL-Jc9J83PIiG8fE6rj9F5a6uyQ5WPdqKy&index=5
+console.log(climbStairs(6, [3, 3, 0, 2, 2, 3]));
+
+
+// Climbing Stairs with Minimum Moves - VVIMP
+function climbStairsMinMoves(jumpSteps) {
+    let dp = new Array(jumpSteps).fill(null);
+
+    //base condition
+    dp[jumpSteps.length - 1] = 0;
+
+    for (let i = dp.length - 2; i >= 0; i--) {
+
+        let min = Number.MAX_SAFE_INTEGER;
+
+        for (let j = 1; j <= jumpSteps[i] && i + j < dp.length; j++) {
+            if (dp[i + j] != null) {
+                min = Math.min(min, dp[i + j]);
+            }
+        }
+        //dp[i] = min+ 1;
+        if (min != Number.MAX_SAFE_INTEGER) {
+            dp[i] = min + 1;
+        }
+    }
+
+    //return dp[0];
+    console.log(dp[0]);
+
+    //print all paths
+    return printPaths(dp, jumpSteps);
+}
+
+
+function Pair(i, size, jump, psf) {
+    this.i = i;
+    this.size = size;
+    this.jump = jump;
+    this.psf = psf;
+}
+
+function printPaths(dp, arr) {
+    let queue = [new Pair(0, arr[0], dp[0], 0 + "")];
+    let allPaths = [];
+
+    while (queue.length > 0) {
+        let node = queue.shift();
+
+        if (node.i == dp.length - 1) {
+            allPaths.push(node.psf);
+        }
+
+        //for( i=0; i< dp.length-1; i++){
+        for (let j = 1; j <= node.size && node.i + j < dp.length; j++) {
+            let currIndex = node.i + j;
+            let min = Number.MAX_SAFE_INTEGER;
+
+            if (dp[currIndex] != null && dp[currIndex] == node.jump - 1) {
+                queue.push(new Pair(currIndex, arr[currIndex], dp[currIndex], node.psf + "," + currIndex))
+            }
+        }
+        //}
+
+    }
+    return allPaths;
+
+}
+
+//Print all Paths with Minimum Jumps Dynamic Programming | Jump Game - II Solution
+//https://www.youtube.com/watch?v=phgjL7SbsWs&list=PL-Jc9J83PIiEZvXCn-c5UIBvfT8dA-8EG&index=10
+console.log(climbStairsMinMoves([3, 3, 0, 2, 1, 2, 4, 2, 0, 0]));
 
 
 
 
+//https://www.youtube.com/watch?v=Zobz9BXpwYE&list=PL-Jc9J83PIiG8fE6rj9F5a6uyQ5WPdqKy&index=6
+console.log(climbStairsMinMoves(10, [3, 2, 4, 2, 0, 2, 3, 1, 2, 2]));
+
+//746. Min Cost Climbing Stairs
+var climbStairs = function (cost) {
+    let dp = new Array(cost.length).fill(0);
+    let step1 = 0;
+    let step2 = 0;
+
+    for (let i = cost.length - 1; i >= 0; i--) {
+        dp[i] = cost[i] + Math.min(step1, step2);
+        step2 = step1;
+        step1 = dp[i];
+
+    }
+    return Math.min(dp[0], dp[1])
+};
+
+//https://leetcode.com/problems/min-cost-climbing-stairs/discuss/1104053/JavaScript-O(1)-Space-DP-Solution
+//https://leetcode.com/problems/min-cost-climbing-stairs/discuss/1256642/JS-Python-Java-C%2B%2B-or-Simple-DP-Solution-w-Explanation
+console.log(climbStairs([10, 15, 20]));
+console.log(climbStairs([1, 100, 1, 1, 1, 100, 1, 1, 100, 1]));
 
 
 
