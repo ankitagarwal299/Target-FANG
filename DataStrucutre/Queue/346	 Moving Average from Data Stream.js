@@ -9,19 +9,20 @@ m.next(5) = (10 + 3 + 5) /3
 */
 
 class Movingverage {
+  maxSize
+  queue = [];
+  sum = 0;
   Movingverage(size) {
-    const maxSize = size;
-    let queue = [];
-    let sum = 0;
+    this.maxSize = size;
   }
 
   next(value) {
-    if (queue.length == maxSize) {
-      let remove = queue.unshift();
-      sum = sum - remove;
+    if (queue.length == this.maxSize) {
+      let remove = this.queue.unshift();
+      this.sum = this.sum - remove;
     }
-    queue.push(value);
-    sum = sum + value;
-    return  sum / queue.length;
+    this.queue.push(value);
+    this.sum = this.sum + value;
+    return this.sum / this.queue.length;
   }
 }

@@ -241,10 +241,60 @@ function countValidParanthesis(num) {
 console.log(countValidParanthesis(4));
 
 
-//https://www.youtube.com/watch?v=n-8R95-5MXw&list=PL-Jc9J83PIiEZvXCn-c5UIBvfT8dA-8EG&index=26
-//https://www.youtube.com/watch?v=H1qjjkm3P3c&list=PL-Jc9J83PIiEZvXCn-c5UIBvfT8dA-8EG&index=24
-//https://www.youtube.com/watch?v=hM_FJnrP1kk&list=PL-Jc9J83PIiEZvXCn-c5UIBvfT8dA-8EG&index=23
 
+//32. Longest Valid Parentheses - Very Good questions
+//Using 2 stack
+var longestValidParentheses = function (s) {
+    if (s == null || s.length < 2) return 0;
+    let maxLength = 0;
+    let charStack = [];
+    let indexStack = [-1];
 
+    for (let i = 0; i < s.length; i++) {
+        if (s[i] == '(') {
+            charStack.push('(');
+            indexStack.push(i);
+        } else if (s[i] == ')' && charStack.length > 0) {
+            charStack.pop();
+            indexStack.pop();
+
+            let currLength = i - indexStack[indexStack.length - 1];
+            if (currLength > maxLength) {
+                maxLength = currLength;
+            }
+        } else {
+            indexStack.push(i);
+        }
+    }
+    return maxLength;
+};
+
+//Using 1 stack
+var longestValidParentheses = function (s) {
+    if (s == null || s.length < 2) return 0;
+    let maxLength = 0;
+    let stack = [-1];
+
+    for (let i = 0; i < s.length; i++) {
+        if (s[i] == '(') {
+            stack.push(i);
+        } else if (s[i] == ')') {
+            stack.pop();
+
+            if (stack.length == 0) {
+                stack.push(i);
+
+            } else {
+                let currLength = i - stack[stack.length - 1];
+                maxLength = Math.max(currLength, maxLength);
+            }
+
+        }
+
+    }
+    return maxLength;
+};
+//https://www.youtube.com/watch?v=qC5DGX0CPFA
 //https://leetcode.com/problems/longest-valid-parentheses/discuss/555969/JS-No-magic-%3A(-%3A-approach-2-Beats-99-2-approaches-to-choose-from.-Feedback-is-welcome.
-//32. Longest Valid Parentheses
+console.log(longestValidParentheses(")()())"));
+console.log(longestValidParentheses("(()"));

@@ -1,25 +1,29 @@
-//https://www.youtube.com/watch?v=UMVa5fRKC8I
 
-var countPrimes = function (n) {
-  if (n == 0 || n == 1) return 0;
+//Time : NloglogN - learn
+//Sieve of Eratosthenes - Optimized Approach - Kevin
+//https://www.youtube.com/watch?v=UMVa5fRKC8I&t=328s
+function countPrimes(N) {
+  let primes = new Array(N + 1).fill(true);//initially assuming all are primes
 
-  let primes = new Array(n).fill(true);
-  for (let i = 0; i < n; i++) {
-    primes[i] = true;
-  }
-
-  for (let i = 2; i * i < n; i++) {
+  primes[0] = false;//prime number starts from 2
+  primes[1] = false;
+  for (let i = 2; i <= Math.sqrt(N); i++) {
     if (primes[i]) {
-      for (let j = i; j * i < n; j++) {
-        primes[j * i] = false;
+      //starting from 2 all the multiples of primes numbers are not prime; settiing all nonprimes to false
+      for (let j = i; i * j <= N; j++) {
+        primes[i * j] = false;
       }
     }
   }
+  console.log(primes);
 
-  let primeCount = 0;
-  for (let i = 2; i < n; i++) {
-    if (!primes[i]) primeCount++;
-  }
-};
 
-console.log(countPrimes(10));
+  let final = primes.map((val, index) => {
+    if (val) {
+      return index;//modify arr from boolean to actual indexes to find out what numbers are prime //[undefined, undefined, 2, 3, undefined, 5, undefined, 7, undefined, undefined, undefined, 11, undefined, 13, undefined, undefined]
+    }
+  }).filter(val => val);
+
+  return final;//[2, 3, 5, 7, 11, 13]
+}
+console.log(countPrimes(15));

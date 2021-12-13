@@ -175,6 +175,7 @@ console.log(palindromePartition(['a', 'b', 'a', 'a', 'b', 'a']));
 
 
 //Minimum Subset Sum Difference Explained | Tug Of War | Recursion and Backtracking
+//refer Pattern 1: IO Knapsack
 function minSubsetSum(inputArr) {
     let minDiff = Number.MAX_SAFE_INTEGER;
     let result = [];

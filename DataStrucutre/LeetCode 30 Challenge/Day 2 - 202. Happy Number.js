@@ -7,10 +7,10 @@ Example:
 Input: 19
 Output: true
 Explanation: 
-12 + 92 = 82
-82 + 22 = 68
-62 + 82 = 100
-12 + 02 + 02 = 1 
+1^2 + 9^2 = 82
+8^2 + 2^2 = 68
+6^2 + 8^2 = 100
+1^2 + 0^2 + 0^2 = 1 
 
 
 Example 2:
@@ -51,17 +51,17 @@ console.log(isHappy(12));
 //fast and slow pointer not using hash map Ologn
 
 var isHappy = function (n) {
-  let slow=
+  let slow =
     fast = num;
 
   while (true) {
-     slow = findSquare(slow);
-     fast = findSquare(findSquare(fast));
+    slow = findSquare(slow);
+    fast = findSquare(findSquare(fast));
 
-    if (slow==fast) break;// found the cycle
+    if (slow == fast) break;// found the cycle
   }
 
-  return slow==1;// see if the cycle is stuck on the number '1'
+  return slow == 1;// see if the cycle is stuck on the number '1'
 };
 
 console.log(isHappy(12));
@@ -74,18 +74,18 @@ console.log(isHappy(12));
 //using reduce function in calculating sum of squares of digits
 
 var isHappy = function (n) {
-    var seen = {};
-    while (n != 1 && !seen[n]) {
-      seen[n] = true;
-      n = findSquare(n);
-    }
-    return n == 1 ? true : false;
-  };
-  
-  function findSquare(n) {
-    return numString.toString().split('').reduce(function(sum, num) {
-        return sum + Math.pow(num, 2);
-    }, 0);
+  var seen = {};
+  while (n != 1 && !seen[n]) {
+    seen[n] = true;
+    n = findSquare(n);
   }
-  
-  console.log(isHappy(12));
+  return n == 1 ? true : false;
+};
+
+function findSquare(n) {
+  return numString.toString().split('').reduce(function (sum, num) {
+    return sum + Math.pow(num, 2);
+  }, 0);
+}
+
+console.log(isHappy(12));

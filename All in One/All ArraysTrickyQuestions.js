@@ -41,33 +41,6 @@ console.log(nextPermutation([1, 1]));
 //1. check the increasing order fromo right/end and stop where it is breaking, catch is it can be 2 digits
 //2. Find next greater number eg 6974 , next greater is 7469 than 6974 --IMP
 
-
-//Trick is to print in pre order traversal
-var lexicalOrder = function (n) {
-    let result = [];
-
-    for (let i = 1; i <= 9; i++) {
-        dfs(i)
-    }
-
-    function dfs(i) {
-        if (i > n) return;
-
-        result.push(i);
-
-        for (let j = 0; j < 10; j++) {
-            dfs(i * 10 + j)
-        }
-    }
-    return result;
-};
-//https://www.youtube.com/watch?v=gRo86WqFYSE&list=PL-Jc9J83PIiHO9SQ6lxGuDsZNt2mkHEn0&index=6
-[1, 10, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 11, 110, 111, 112, 12, 13]
-console.log(lexicalOrder(13));
-
-
-
-
 //88. Merge Sorted Array -Easy - 3 pointers strategy
 var merge = function (nums1, m, nums2, n) {
     //base conditions
@@ -176,3 +149,55 @@ var sortedSquares = function (nums) {
 };
 console.log(merge([-4, -1, 0, 3, 10]));
 console.log(merge([-7, -3, 2, 3, 11]));
+
+
+//https://www.youtube.com/watch?v=q2v5nik5vwU
+//Use of regex
+var mostCommonWord = function (paragraph, banned) {
+    if (paragraph == null || paragraph.length == 0) return "";
+    let wordMap = new Map();
+    let bannedMap = new Map();
+
+    for (let ban of banned) {
+        bannedMap.set(ban, true);
+    }
+
+    let arr = paragraph.replaceAll(/[^a-zA-Z]+/gi, ' ').trim().toLowerCase().split(' ')
+    //After--> bob hit a ball the hit ball flew far after it was hit
+    console.log(arr)
+
+    console.log(arr)
+    for (let word of arr) {
+        wordMap.set(word, wordMap.get(word) + 1 || 1);
+    }
+
+    console.log(wordMap)
+
+    let max = -Infinity;
+    let ans = "";
+    for (let [word] of wordMap.entries()) {
+
+        if (bannedMap.has(word)) continue;
+        if (wordMap.get(word) > max) {
+            ans = word;
+            max = wordMap.get(word);
+        }
+    }
+
+
+
+    return ans;
+};
+
+
+//1344. Angle Between Hands of a Clock
+var angleClock = function (hour, minutes) {
+    const hourAngle = 360 / 12 * (hour % 12);
+    const minAngle = 360 / 60 * minutes;
+
+    const surpassAngle = 30 / 60 * minutes;
+
+    const angleBetween = Math.abs((hourAngle + surpassAngle) - minAngle);
+
+    return (angleBetween > 180) ? 360 - angleBetween : angleBetween;
+};

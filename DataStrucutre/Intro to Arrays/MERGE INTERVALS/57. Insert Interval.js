@@ -1,44 +1,55 @@
-class Interval {
-    constructor(start, end) {
-      this.start = start;
-      this.end = end;
-    }
-  
-    print_interval() {
-      process.stdout.write(`[${this.start}, ${this.end}]`);
-    }
-  }
-  
-  function insert(intervals, new_interval) {
-    let merged = [],
-      i = 0;
-  
-    // skip and add to output) all intervals that come before the 'new_interval'
-    while (i < intervals.length && intervals[i].end < new_interval.start) {
-      merged.push(intervals[i]);
-      i += 1;
-    }
-  
-    // merge all intervals that overlap with 'new_interval'
-    while (i < intervals.length && intervals[i].start <= new_interval.end) {
-      new_interval.start = Math.min(intervals[i].start, new_interval.start);
-      new_interval.end = Math.max(intervals[i].end, new_interval.end);
-      i += 1;
-    }
-  
-    // insert the new_interval
-    merged.push(new_interval);
-  
-    // add all the remaining intervals to the output
-    while (i < intervals.length) {
-      merged.push(intervals[i]);
-      i += 1;
-    }
-  
-    return merged;
-  }
-  
-  
-  let result = insert([new Interval(1, 3),new Interval(5, 7),new Interval(8, 12)], new Interval(4, 6));
+//57. Insert Interval - Practice 20 times this code
+var insert = function (intervals, newInterval) {
+  if (intervals?.length == 0) return [newInterval];
 
-  /* Q. Insert Interval */
+  let result = [];
+
+  intervals.sort((a, b) => a[0] != b[0] ? a[0] - b[0] : a[1] - b[1]);
+
+  let i = 0;
+  //loop and add  meetings until new interval starttime is greater than existinig meetinig
+  while (i < intervals.length && intervals[i][0] < newInterval[0]) {
+    result.push(intervals[i]);
+    i++;
+  }
+
+  //Check if above condition failed on for 1st meeting or 
+  //New Meeting is starting after the last meeting start time 
+  //Question is it is starting before last meetiing ending?
+  if (i == 0 || newInterval[0] > result[result.length - 1][1]) {
+    result.push(newInterval);
+    //add new interval
+  } else {
+    //merging
+    let lastInterval = result[result.length - 1];
+    lastInterval[1] = Math.max(lastInterval[1], newInterval[1]);//same starnge it update array directly
+  }
+
+
+  function getIntersection(prev, curr) {
+    return prev[1] >= curr[0];
+  }
+
+  //insert all meetinigs after inserting new interval from above
+  while (i < intervals.length) {
+    let lastInterval = result[result.length - 1];
+    let intersection = getIntersection(lastInterval, intervals[i]);
+    if (intersection) {
+      //merging
+      lastInterval[1] = Math.max(lastInterval[1], intervals[i][1]);
+    } else {
+      result.push(intervals[i]);
+    }
+    i++;
+
+  }
+  return result;
+};
+
+let meeting_times = [[1, 2], [3, 5], [6, 7], [8, 10], [12, 16]]
+
+let new_meeting = [4, 8]
+//https://www.youtube.com/watch?v=dxbRB6gWCqg
+console.log(insert_meeting(meeting_times, new_meeting))
+
+

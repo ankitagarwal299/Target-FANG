@@ -47,7 +47,7 @@ class Trie {
     // for (let i = 0; i < results.length; i++) {
     //   results[i][0] = word + results[i][0];
     // }
-    for (let key in results){
+    for (let key in results) {
       results[key][0] = word + results[key][0];
     }
     return results;
@@ -119,7 +119,7 @@ class Trie {
 let trie = new Trie();
 
 let words = ['ab', 'able', 'boot', 'book', 'bat', 'batter', 'eat', 'each',
-'i like to eat cake', 'i like to eat pie', 'i like to eat pizza', 'i like to drink soda'];
+  'i like to eat cake', 'i like to eat pie', 'i like to eat pizza', 'i like to drink soda'];
 
 for (let i = 0; i < words.length; i++) {
   trie.insert(words[i]);
@@ -158,7 +158,7 @@ function getPossibilities(prefix) {
 }
 
 function displayWords() {
-    getPossibilities(pullWordFromField());
+  getPossibilities(pullWordFromField());
 }
 
 function searchWord() {

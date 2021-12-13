@@ -471,7 +471,7 @@ console.log(canConstruct("purple", ["purp", "p", "ur", "le", "purpl"]));
 console.log(canConstruct("skateboard", ["bo", "rd", "ate", "t", "ska", "sk", "boar"]));
 //console.log(canConstruct("enterapotentpot", ["a", "p", "ent", "enter", "ot", "o", "t"]));
 
-//149 https://leetcode.com/problems/word-break-ii/
+//140 https://leetcode.com/problems/word-break-ii/
 var wordBreak = function (s, wordDict) {
     if (s == null || s.length == 0) return [];
     if (wordDict == null || wordDict.length == 0) return [];

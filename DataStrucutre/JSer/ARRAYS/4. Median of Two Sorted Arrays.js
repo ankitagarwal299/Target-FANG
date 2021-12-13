@@ -1,4 +1,4 @@
-//Approach 1 : O(log (m+n))
+//Approach 1 : Om(log (m+n))
 var findMedianSortedArrays = function (nums1, nums2) {
     let result = [];
 

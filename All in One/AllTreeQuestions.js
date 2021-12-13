@@ -135,6 +135,71 @@ var levelOrder = function (root) {
     return result;
 };
 
+//589. N - ary Tree Preorder Traversal
+//https://leetcode.com/problems/n-ary-tree-preorder-traversal/discuss/291542/two-solutions-JavaScript
+var preorder = function (root) {
+    const result = [];
+    function traverse(tree) {
+        if (!tree) {
+            return result;
+        }
+        result.push(tree.val);
+        for (let i = 0; i < tree.children.length; i++) {
+            traverse(tree.children[i]);
+        }
+        return result;
+    }
+    return traverse(root)
+}
+//solution 2:- Iterative, its not same as levelOrder traversal
+var preorder = function (root) {
+
+    const stack = [];
+    const result = [];
+    if (!root) {
+        return result;
+    }
+    stack.push(root);
+    while (stack.length) {
+        const node = stack.pop();
+        result.push(node.val);
+        for (let i = node.children.length - 1; i >= 0; i--) {
+            stack.push(node.children[i]);
+        }
+    }
+    return result;
+};
+
+
+//590. N-ary Tree Postorder Traversal
+//https://leetcode.com/problems/n-ary-tree-postorder-traversal/discuss/529596/JavaScript-Iterative-and-Recursive
+var postorder = function (root) {
+    const res = [];
+    traverse(root);
+    return res;
+
+    function traverse(node) {
+        if (!node) return;
+        for (child of node.children) {
+            traverse(child);
+        }
+        res.push(node.val);
+    }
+};
+
+
+var postorder = function (root) {
+    const res = [], stack = [root];
+    while (stack.length) {
+        const curr = stack.pop();
+        if (!curr) continue;
+        res.push(curr.val);
+        stack.push(...curr.children);
+    }
+    return res.reverse();
+};
+
+
 
 var zigzagLevelOrder = function (root) {
     if (!root) return [];
@@ -189,7 +254,7 @@ function maxDepthTree(root) {
 
 /* recusrive Max height  */
 function maxDepthTree(root) {
-    if (!root) return 0;
+    if (!root) return 0;// 0 for node and -1 for edges, see Pepcoding , link provided in the last
     let left = maxDepthTree(root.left);
     let right = maxDepthTree(root.right);
 
@@ -199,7 +264,7 @@ function maxDepthTree(root) {
 /* short one*/
 /* recusrive Max height of tree */
 function maxDepth(root) {
-    if (!root) return 0;
+    if (!root) return 0;// 0 for node and -1 for edges, see Pepcoding , link provided in the last
     return Math.max(maxDepth(root.left), maxDepth(root.right)) + 1;
 }
 
@@ -271,7 +336,7 @@ function minDepth(root) {
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
-/* Max Depth N-ary tree */
+
 function Node(val, children) {
     this.val = val;
     this.children = children;
@@ -296,6 +361,7 @@ var maxDepthNArray = function (root) {
     return depth;
 };
 
+/* Max Depth N-ary tree */
 //Given a n - ary tree, find its maximum depth.
 var maxDepthNArray = function (root) {
     if (!root) return 0;
@@ -306,13 +372,14 @@ var maxDepthNArray = function (root) {
 
     return max + 1;
 };
-
+//559. Maximum Depth of N-ary Tree
 //Given a n - ary tree, find its maximum depth.
 var maxDepthNArray = function (root) {
     if (!root) return 0;
 
     let max = 0;
     function helper(node, depth) {
+        if (node == null) return;
         max = Math.max(max, depth);
 
         for (let child of node.children) {
@@ -324,6 +391,8 @@ var maxDepthNArray = function (root) {
 
     return max;
 };
+
+
 
 
 //Space expensive
@@ -370,7 +439,6 @@ var rightSideView = function (root) {
     return result;
 };
 
-//Improvement on above right side view 
 var leftSideView = function (root) {
     if (!root) return [];
 
@@ -391,6 +459,14 @@ var leftSideView = function (root) {
     }
     return result;
 };
+
+
+//Shorter version , no need to maintain currentSize array at each level
+//https://www.youtube.com/watch?v=thkuu_FWFD8&t=106s
+//PreOrder Traversal-| Efficient
+//--TODO--
+//Print Boundary and left side and right side | Different approach
+
 
 var verticalTraversal = function (root) {
     const map = new Map();
@@ -621,18 +697,10 @@ function isSameTree(s, t) {
     return isSameTree(s.left, t.left) && isSameTree(s.right, t.right);//remember && condition, every node should be same.
 }
 
-/*
-Time: O( n )
 
-We will be touching the whole tree in the search, there are n nodes in the tree and we do O(1) work at each node. There are not exactly n calls though but I need to 
-double check this...I need to solve the recurrence but oh well...we know it will stay linear in the asymptotic regard.
-
-Space: O( h )
-
-Stack usage at maximum will be the trees height. Worst case would be O(n) if our tree is skewed purely to the left or right and we need to find deep nodes. 
-But n IS h in that case. But we say O( n ) in that case since it is more accurate to what is happening, the tree's size in nodes dominating the height. */
+//236. Lowest Common Ancestor of a Binary Tree.js
 var lowestCommonAncestor = function (root, p, q) {
-    if (root == null || root == p || root == q) return root;
+    if (root == null || root == p || root == q) return root;//here root and p are complete node therefore not checking values eg "[1,0,8]" == "[1,0,8]""
 
     let left = lowestCommonAncestor(root.left, p, q);
     let right = lowestCommonAncestor(root.right, p, q);
@@ -647,53 +715,99 @@ var lowestCommonAncestor = function (root, p, q) {
     return left != null ? left : right; //return node whoch is not null to its parent
 };
 
+//N-ary Tree for LCA asked in Microsoft
+//https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/discuss/1367273/n-ary-tree-for-lca
+var lowestCommonAncestor = function (root, p, q) {
+    if (root == null || root == p || root == q) return root;//here root and p are complete node therefore not checking values eg "[1,0,8]" == "[1,0,8]""
+    if (root.children == null || root.children.size() == 0) return null;
+    // let left = lowestCommonAncestor(root.left, p, q);
+    // let right = lowestCommonAncestor(root.right, p, q);
+
+    let count = 0;
+    let res = null;
+
+    for (let i = 0; i < root.children.length; i++) {
+        let curr = lowestCommonAncestor(root.children[i], p, q);
+
+        if (curr != null) {
+            count++;
+            res = curr;
+        }
+        if (count == 2) return root;
+        return res;
+    }
+};
+
+/*
+Time: O( n )
+Space: O( h )
+
+Stack usage at maximum will be the trees height. Worst case would be O(n) if our tree is skewed purely to the left or right and we need to find deep nodes.
+But n IS h in that case. But we say O( n ) in that case since it is more accurate to what is happening, the tree's size in nodes dominating the height. */
 //https://leetcode.com/problems/lowest-common-ancestor-of-a-binary-tree/discuss/309491/Different-heavily-commented-JavaScript-Solution
 var lowestCommonAncestor = function (root, p, q) {
-    let pNode;
-    let qNode;
+    var pNode;
+    var qNode;
 
+    // Search for the nodes, and add a parent chain while doing that
+    // After finding both, go up each node's parent chain till we find the
+    // the same common ancestor for both nodes.
+
+    // we will keep track of level, see why later
     root.level = 0;
-    let queue = [root];
+    let stack = [root];
 
+    // while we have nodes to consider and we haven't found p and q nodes yet
     while (stack.length && !(pNode && qNode)) {
-        let currNode = queue.shift();
 
-        // check if we found the p node
-        if (currNode.val == p) {
-            pNode = currNode;
-        }
-        if (currNode.val == q) {
-            qNode = currNode;
-        }
+        let node = stack.pop();
 
-        // consider the children. Set the level and set the node as parent
-        if (currNode.left) {
-            currNode.left.level = currNode.level + 1;
-            currNode.left.parent = currNode;
-            queue.push(currNode.left);
-        }
-        if (currNode.right) {
-            currNode.right.level = currNode.level + 1;
-            currNode.right.parent = currNode;
-            queue.push(currNode.right);
+        if (node) {
+
+            // check if we found the p node
+            if (node.val === p.val) {
+                pNode = node;
+            }
+
+            // check if we found the q node
+            if (node.val === q.val) {
+                qNode = node;
+            }
+
+            // consider the children. Set the level and set the node as parent
+            if (node.right) {
+                node.right.level = node.level + 1;
+                node.right.parent = node;
+                stack.push(node.right);
+            }
+            if (node.left) {
+                node.left.level = node.level + 1;
+                node.left.parent = node;
+                stack.push(node.left);
+            }
         }
     }
+
     // Now, for both p and q nodes we know the parent chain,
     // we move up the chain until it's the same node. That is the LCA
     // To make sure we move up in the right order, we use the level property added during the dfs
-    while (pNode.val != qNode.val) {
+
+    while (pNode.val !== qNode.val) {
+
         if (pNode.level > qNode.level) {
             pNode = pNode.parent;
         } else if (pNode.level < qNode.level) {
             qNode = qNode.parent;
         } else {
-            pNode = pNode.parent;
             qNode = qNode.parent;
+            pNode = pNode.parent;
         }
     }
-    return pNode;
-};
 
+    return pNode;
+}
+
+//235. Lowest Common Ancestor of a Binary Search Tree.js
 //BST not binary tree- Kevin
 //https://www.youtube.com/watch?v=kulWKd3BUcI
 var lowestCommonAncestor = function (root, p, q) {
@@ -705,6 +819,78 @@ var lowestCommonAncestor = function (root, p, q) {
         return root;
     }
 };
+
+//1123. Lowest Common Ancestor of Deepest Leaves of Binary Tree
+//865:  Smallest Subtree with all the Deepest Nodes
+
+//https://leetcode.com/problems/lowest-common-ancestor-of-deepest-leaves/discuss/863903/typescript-javascript-DFS-solution-beats-100-w-comments
+var lcaDeepestLeaves = function (root) {
+    if (root == null) return root;
+    let maxDepth = 0;  // current deepest node
+    let lca = null; // lowest common ancestor
+
+    // helper dfs method to find deepest leaves for each ancestor
+    function traverse(node, depth) {
+
+        // set new deepest
+        maxDepth = Math.max(depth, maxDepth);
+
+        if (node == null) return depth; // base case (just return current depth)
+
+        let leftHeight = traverse(node.left, depth + 1);
+        let rightHeight = traverse(node.right, depth + 1);
+
+        //potential candidate, check if deepest in both left and right ARE the deepest
+        if (leftHeight == maxDepth && rightHeight == maxDepth) {
+            lca = node;  // this means this current node, has all deepest leaves, so set ancestor
+        }
+        // return the deeper subtree
+        return Math.max(leftHeight, rightHeight);
+    }
+    traverse(root, 0);
+};
+
+//1123. Lowest Common Ancestor of Deepest Leaves of Binary Tree - WAY 2 -Calculate MaxDepth initially
+//https://www.youtube.com/watch?v=L5PDXBk6an4
+
+var lcaDeepestLeaves = function (root) {
+    function lowestCommonAncestor_depth(node, maxDepth) {
+
+        function traverse(node, depth) {
+            if (node == null) return null;
+
+            if (depth == maxDepth) return node;
+
+            let left = traverse(node.left, depth + 1);
+            let right = traverse(node.right, depth + 1);
+
+            if (left && right) {
+                return node;
+            }
+
+            return left ? left : right;
+
+        }
+        return traverse(node, 0);
+
+    }
+
+
+    function getMaxDepth(root) {
+        if (!root) return -1;
+        let left = getMaxDepth(root.left);
+        let right = getMaxDepth(root.right);
+
+        return Math.max(left, right) + 1;
+    }
+
+    maxDepth = getMaxDepth(root);//maxDepth
+    return lowestCommonAncestor_depth(root, maxDepth);//answer
+};
+
+
+
+
 
 // Time Complexity: O(N), we always visit all nodes
 // Space Complexity: O(H) or O(N), height can be at most N (in case of a skewed tree)
@@ -1297,3 +1483,50 @@ var rob = function (root) {
 };
 //https://www.youtube.com/watch?v=kTL5LhCTL1c
 console.log(robIII([3, 2, 3, null, 3, null, 1]));
+
+
+
+//	298	Binary Tree Longest Consecutive Sequence -- Very Easy/Good 
+var longestConsecutiveSequnce = function (root) {
+    let max_seqLen = 0;
+
+    traverse(root, 0, 0, max_seqLen);//pass root , initial count
+    return max_seqLen;
+};
+
+function traverse(node, count, target, max_seqLen) {
+    if (node == null) {
+        return;
+    }
+    else if (node.value == target) {
+        count += 1;
+    } else {
+        count = 1;// reset count
+    }
+    max_seqLen = Math.max(max_seqLen, count)
+
+    traverse(node.left, count, target, max_seqLen);
+    traverse(node.right, count, target, max_seqLen);
+}
+
+const root = new TreeNode(1);
+root.right = new TreeNode(3);
+root.right.left = new TreeNode(2);
+root.right.right = new TreeNode(4);
+root.right.right.right = new TreeNode(5);
+
+
+//https://www.youtube.com/watch?v=oSYGjIq6ZM4&t=74s
+console.log(longestConsecutiveSequnce(root));
+
+class TreeNode {
+    constructor(value) {
+        this.value = value;
+        this.left = null;
+        this.right = null;
+    }
+}
+
+
+//Todo- Size, Sum, Max and Height in a Binary Tree
+//https://www.youtube.com/watch?v=Y7fg3QS6u6w

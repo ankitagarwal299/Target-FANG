@@ -23,9 +23,40 @@ between the sum of numbers is '92'. Here are the two subsets: {1, 3, 4} & {100}.
 
 */
 
+const canPartition = function (num) {
+  const dp = [];
+
+  function canPartitionRecursive(num, currentIndex, sum1, sum2) {
+    // base check
+    if (currentIndex === num.length) return Math.abs(sum1 - sum2);
+
+    dp[currentIndex] = dp[currentIndex] || [];
+    // check if we have not already processed similar problem
+    if (typeof dp[currentIndex][sum1] === 'undefined') {
+      // recursive call after including the number at the currentIndex in the first set
+      const diff1 = canPartitionRecursive(num, currentIndex + 1, sum1 + num[currentIndex], sum2);
+
+      // recursive call after including the number at the currentIndex in the second set
+      const diff2 = canPartitionRecursive(num, currentIndex + 1, sum1, sum2 + num[currentIndex]);
+
+      dp[currentIndex][sum1] = Math.min(diff1, diff2);
+    }
+    return dp[currentIndex][sum1];
+  }
+
+  return canPartitionRecursive(num, 0, 0, 0);
+};
+
+console.log(`Minimum subset difference is: ---> ${canPartition([1, 2, 3, 9])}`);
+console.log(`Minimum subset difference is: ---> ${canPartition([1, 2, 7, 1, 5])}`);
+console.log(`Minimum subset difference is: ---> ${canPartition([1, 3, 100, 4])}`);
+
+
+
+
 const canPartition = function (num, sum) {
-  let totalSum=0;
-  
+  let totalSum = 0;
+
   for (let i = 0; i < num.length; i++) totalSum += num[i];
 
   // if 'sum' is a an odd number, we can't have two subsets with same total
@@ -57,7 +88,7 @@ const canPartition = function (num, sum) {
 
   let sum1 = 0;
   for (let i = sum; i >= 0; i--) {
-    if(dp[num.length-1][i]== true){
+    if (dp[num.length - 1][i] == true) {
       sum1 = i;
     }
   }

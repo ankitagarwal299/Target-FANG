@@ -384,3 +384,65 @@ var numDecodings = function (s) {
 
 console.log(numDecodings("231011"));
 console.log(numDecodings("21123"));
+
+
+
+
+//91. Decode Ways -Also print all the decoding
+var numDecodings = function (s) {
+    if (s == null || s.length == 0 || s.charAt(0) == 0) return "";
+    let mapping = { '1': 'A', '2': 'B', '3': 'C', '4': 'D', '5': 'E', '6': 'F', '7': 'G', '8': 'H', '9': 'I', '10': 'J', '11': 'K', '12': 'L', '13': 'M', '14': 'N', '15': 'O', '16': 'P', '17': 'Q', '18': 'R', '19': 'S', '20': 'T', '21': 'U', '22': 'V', '23': 'W', '24': 'X', '25': 'Y', '26': 'Z', }
+    printEncoding(s, "", mapping);
+
+};
+
+function printEncoding(str, asf, mapping) {
+    if (str.length == 0) {
+        console.log(asf);
+        return;
+    } else if (str.length == 1) {
+        let char = str.charAt(0);
+        let ros = str.substring(1);//check rest of string char
+        if (char == '0') {
+            return;
+        } else {
+            //asf = asf + mapping[char];
+            //console.log(asf);
+            printEncoding(ros, asf + mapping[char], mapping);
+        }
+        // return;
+    } else {
+        //2 or more char
+        let char = str.charAt(0);//check 1st char
+        let ros = str.substring(1);//check rest of string char
+
+        if (char == '0') {
+            return;
+        } else {
+            //asf = asf + mapping[char];
+            printEncoding(ros, asf + mapping[char], mapping);
+        }
+
+
+        //Check 2 digits together
+        let char12 = str.substring(0, 2);//check 2 chars
+        let ros12 = str.substring(2);//check rest of string char
+        if (char12 <= '26') {
+            //asf = asf + mapping[char12];
+            printEncoding(ros12, asf + mapping[char12], mapping);
+        }
+
+    }
+
+}
+
+
+
+
+//https://www.youtube.com/watch?v=2ClSccwnq1Y&list=PL-Jc9J83PIiFxaBahjslhBD1LiJAV7nKs&index=47
+//console.log(numDecodings("261"));
+
+console.log(numDecodings("231011"));
+console.log(numDecodings("21123"));
+console.log(numDecodings("01123"));
+console.log(numDecodings("123"));
