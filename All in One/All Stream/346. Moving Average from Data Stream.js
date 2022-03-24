@@ -1,13 +1,13 @@
 class Movingverage {
     constructor(size) {
         this.queue = [];
-        this.windowSize = 0;
+        this.windowSize = size;
         this.sum = 0.0;
     }
 
     add(num) {
         if (this.windowSize == this.queue.length) {
-            this.sum -= this.queue.shift();
+            this.sum -= this.queue.unshift();
         }
         this.queue.push(num);
         sum += num;

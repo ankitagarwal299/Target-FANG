@@ -25,7 +25,7 @@
 
 
 
-//https://www.callicoder.com/minimum-window-substring/
+//https://www.callicoder.com/minimum-window-substring/ --Completed
 1.Minimum Window Substring
 2.Longest Subarray with Ones after Replacement
 3.Longest Substring with Same Letters after Replacement
@@ -39,33 +39,33 @@
 
 
 //Monotonic Increasing Queue and Monotonic Decreasing Queue
-581. Shortest Unsorted Continuous Subarray
-496. Next Greater Element I
-503.Next Greater Element II
-84. Largest Rectangle in Histogram
-122. Best Time to Buy and Sell Stock II
-862. Shortest Subarray with Sum at Least K
+581. Shortest Unsorted Continuous Subarray https://leetcode.com/problems/shortest-unsorted-continuous-subarray/
+496. Next Greater Element I https://leetcode.com/problems/next-greater-element-i/
+503.Next Greater Element II https://leetcode.com/problems/next-greater-element-ii/
+84. Largest Rectangle in Histogram  https://leetcode.com/problems/largest-rectangle-in-histogram/
+122. Best Time to Buy and Sell Stock II  https://leetcode.com/problems/best-time-to-buy-and-sell-stock-ii/
+862. Shortest Subarray with Sum at Least K https://leetcode.com/problems/shortest-subarray-with-sum-at-least-k/
+
+739. Daily Temperatures https://leetcode.com/problems/daily-temperatures/
+581. Shortest Unsorted Continuous Subarray https://leetcode.com/problems/online-stock-span/
+456. 132 Pattern https://leetcode.com/problems/132-pattern/
+907. Sum of Subarray Minimums https://leetcode.com/problems/sum-of-subarray-minimums/
 
 
-//896. Monotonic Array.js
-var isMonotonic = function (A) {
 
-    if (A == null || A.length < 1) return false;
-    if (A.length == 1) return true;
 
-    let increasing = true;
-    let decreasing = true;
-    for (let i = 0; i < A.length - 1; i++) {
-        if (A[i] > A[i + 1]) {
-            increasing = false;
-        }
 
-        if (A[i] < A[i + 1]) {
-            decreasing = false;
-        }
-    }
-    return increasing || decreasing;
-};
 
-console.log(isMonotonic([1, 3, 2]));
+
+
+
+Sliding window:
+
+1248. Count Number of Nice Subarrays
+1234. Replace the Substring for Balanced String
+1004. Max Consecutive Ones III
+930. Binary Subarrays With Sum
+992.Subarrays with K Different Integers
+904.Fruit Into Baskets
+
 
