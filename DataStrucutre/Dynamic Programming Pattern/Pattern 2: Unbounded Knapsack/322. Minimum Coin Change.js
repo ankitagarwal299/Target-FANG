@@ -14,52 +14,47 @@ Note:
 You may assume that you have an infinite number of each kind of coin.
 
 */
+var coinChange1 = function(coins, amount) {
+  if (amount <= 0) return 0;
 
-//From Educative- Frustated with this method
+  // Initialize the dp array with rows for each coin and columns for each amount
+  let dp = new Array(coins.length).fill(null).map(() => new Array(amount + 1).fill(Infinity));
 
-/* var coinChange = function (coins, amount) {
-  //fill dp 2D array
-  const dp = Array(coins.length)
-    .fill(0)
-    .map(() => Array(amount + 1).fill(0));
-
-  for (let i = 0; i < coins.length; i++) {
-    for (let j = 0; j <= amount; j++) {
-      dp[i][j] = Number.MAX_VALUE;
-    }
-  }
-
+  // Base case: 0 coins needed to make amount 0
   for (let i = 0; i < coins.length; i++) {
     dp[i][0] = 0;
   }
 
-  for (let i = 0; i < coins.length; i++) {
-    for (let t = 1; t <= amount; t++) {
-      if (i > 0) {
-        dp[i][t] = dp[i - 1][t];
-      }
-      if (t >= coins[i]) {
-        dp[i][t] = Math.min( dp[i][t] , dp[i][t-coins[i]] +1);
-      }
-    }
-  }
-  return dp[coins.length-1][amount] === Number.MAX_VALUE ? -1: dp[coins.length-1][amount];
-}; */
-
-var coinChange = function (coins, amount) {
-  const dp = Array(amount + 1).fill(amount + 1);
-
-  //0 amount with any coin
-  dp[0] = 0;
-
+  // Base case: If the first coin can divide the amount, fill the corresponding cells
   for (let i = 0; i <= amount; i++) {
-    for (let coin = 0; coin < coins.length; coin++) {
-      if (i >= coins[coin]) {
-        dp[i] = Math.min(dp[i], 1 + dp[i - coins[coin]]);
+    if (i >= coins[0] && (i % coins[0] == 0)) {
+      dp[0][i] = i / coins[0];
+    }
+  }
+
+  // Dynamic programming filling
+  for (let i = 1; i < coins.length; i++) {
+    for (let j = 1; j <= amount; j++) {
+      const coin = coins[i];
+
+      if (j >= coin) {
+        // Include condition: compare including, not including
+        dp[i][j] = Math.min(dp[i][j - coin] + 1, dp[i - 1][j]);
+      } else {
+        // If the current coin is too large, use the previous row's value
+        dp[i][j] = dp[i - 1][j];
       }
     }
   }
-  return dp[amount] > amount? -1:dp[amount]
+
+
+
+  // The result is in the bottom-right cell of the dp array
+  return dp[coins.length - 1][amount] === Infinity ? -1 : dp[coins.length - 1][amount];
 };
 
-console.log(coinChange([1, 2, 3], 5));
+// Example usage:
+const coins = [195, 265, 404, 396];
+const amount = 3239;
+//console.log(coinChange(coins, amount)); // Output: 8//[1,2,5]
+console.log(coinChange([2, 1, 5], 11)); // Output: 8//

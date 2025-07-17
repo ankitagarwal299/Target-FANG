@@ -1,71 +1,36 @@
 var numIslands = function (grid) {
-    if (grid == null || grid.length == 0) {
-      return 0;
-    }
-  
-    let numIslands = 0;
-  
-    for (let i = 0; i < grid.length ; i++) {
-      for (let j = 0; j < grid[0].length ; j++) {
-        if (grid[i][j] == "1") {
-          numIslands = numIslands + dfs(grid, i, j);
-        }
+  if (grid == null || grid.length == 0) return 0; // Return 0 if grid is empty
+
+  let visited = new Set();
+  let count = 0;
+
+  for (let i = 0; i < grid.length; i++) {
+      for (let j = 0; j < grid[0].length; j++) {
+          if (grid[i][j] === '1') { // Check against '1' instead of 1
+              if (visited.has(`${i}-${j}`) == false) {
+                  count += dfs(i, j, visited, grid);
+              }
+          }
       }
-    }
-  return numIslands;
-   
   }
-  
-  function dfs(grid, i, j) {
-    if (i < 0 || i >= grid.length || j < 0 || j >= grid[i].length || grid[i][j] == '0') {
-      return 0;
-    }
-  
-    grid[i][j] = 0;
-    dfs(grid, i + 1, j);
-    dfs(grid, i - 1, j);
-    dfs(grid, i, j + 1);
-    dfs(grid, i, j - 1);
-  
-    return 1;
+  return count;
+}
+
+const directions = [[-1, 0], [1, 0], [0, -1], [0, 1]];
+
+function dfs(i, j, visited, grid) {
+  if (i < 0 || j < 0 || i >= grid.length || j >= grid[0].length) return 0;
+  if (grid[i][j] === '0') return 0; // Check against '0' instead of 0
+  if (visited.has(`${i}-${j}`)) return 0;
+
+  visited.add(`${i}-${j}`);
+
+  for (const [dx, dy] of directions) {
+      const newX = i + dx; // Use i instead of x
+      const newY = j + dy; // Use j instead of y
+
+      dfs(newX, newY, visited, grid);
   }
-  
-  var islands = [
-    [1, 1, 0, 0, 0],
-    [1, 1, 0, 0, 0],
-    [0, 0, 1, 0, 0],
-    [0, 0, 0, 1, 1]
-  ]
- /*  var islands = [
-    [1, 1, 1, 1, 0],
-    [1, 1, 0, 1, 0],
-    [1, 1, 0, 0, 0],
-    [0, 0, 0, 0, 0],
-  ]; */
-  console.log(numIslands(islands));
 
-
-
-/* 
-Example 1:
-
-Input:
-11110
-11010
-11000
-00000
-
-Output: 1
-
-Example 2:
-
-Input:
-[
-[1,1,0,0,0],
-[1,1,0,0,0],
-[0,0,1,0,0],
-[0,0,0,1,1]
-]
-
-Output: 3
-*/
+  return 1; // Return 1 after exploring all directions
+}

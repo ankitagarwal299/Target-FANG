@@ -43,3 +43,35 @@ console.log(`Length of Longest Common Subsequence: ---> ${findLCSLength('passpor
 
 //RATO: Tushar ROy
 //https://www.youtube.com/watch?v=NnD96abizww
+
+
+/**
+ * @param {string} text1
+ * @param {string} text2
+ * @return {number}
+ */
+var longestCommonSubsequence = function (text1, text2) {
+  const memo = {};
+
+  // Helper function to compute LPS using memoization
+  function lcs(i, j) {
+     
+
+      if (i >= text1.length || j >= text2.length) return 0; // Base case: No valid range
+
+      const key = `${i}-${j}`;
+
+       if (key in memo) return memo[key]; // Return cached result if exists
+
+      if (text1[i] === text2[j]) {
+          // Characters match, so include them in the LPS
+          return memo[key] = 1 + lcs(i + 1, j + 1);
+      } else {
+          // Characters do not match, try excluding one character and take the maximum LPS
+          return memo[key] = Math.max(lcs(i + 1, j), lcs(i, j + 1));
+      }
+  }
+
+  // Total length of string minus LPS gives the minimum deletions required
+  return lcs(0, 0);
+};

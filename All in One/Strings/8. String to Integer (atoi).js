@@ -1,58 +1,57 @@
 /**
- * @param {string} str
+ * @param {string} s
  * @return {number}
  */
-var myAtoi = function (str) {
-    if (str == null || str.length == 0 || str.length > 200) {
-        //given validation
-        return 0;
-    }
-
-    let MAX_INT = 2 ** 31 - 1;
-    let MIN_INT = -(2 ** 31);
-
-    function divide(num) {
-        if (num < 0) {
-            return Math.ceil(num / 10);
-        } else {
-            return Math.floor(num / 10);
-        }
-    }
+var myAtoi = function (s) {
 
     let i = 0;
-    let sign = 1;
-    let result = 0;
-    //1st loop
-    while (i < str.length && str[i] == ' ') {
+    let isNegative = false;
+    let resultNum = 0;
+
+    const MAX_INT = 2 ** 31 - 1;//2147483647
+    const MIN_INT = -(2 ** 31);//2147483648
+
+    while (i < s.length && s[i] == ' ') i++;
+
+    if (s[i] == '+' || s[i] == '-') {
+        isNegative = s[i] == '+' ? false : true;
         i++;
     }
 
-    if (str[i] == '-' || str[i] == '+') {
-        sign = (str[i] == '-') ? -1 : 1;
-        i++;
+    while (i < s.length && s[i] == '0') i++;
 
-    }
-    //2nd loop
-    while (i < str.length && (str[i].charCodeAt() - "0".charCodeAt() >= 0) && (str[i].charCodeAt() - "0".charCodeAt() <= 9)) {
+    while (i < s.length && isNum(s[i])) {
 
-        //always positive
-        if (result > divide(MAX_INT) || ((result == divide(MAX_INT) && Number(str[i]) > 7))) {
-            return (sign == 1) ? 2147483647 : -2147483648;
+        const digit = s[i].charCodeAt() - "0".charCodeAt();
+
+        if (resultNum > Math.floor(MAX_INT / 10) || (resultNum == Math.floor(MAX_INT / 10) && digit > 7)) {
+            console.log(resultNum)
+            return isNegative ? MIN_INT : MAX_INT;
+            //result is more than 214748364
+            //or equal to 214748364 and coming char is more than 7, ie going to exceed 2147483647
+
+            //s ="2147483648" => 2147483647
         }
 
-        result = result * 10 + Number(str[i]);
-        i++;//impoortant
+        resultNum = resultNum * 10 + digit;
+
+        i++;
     }
 
+    return isNegative ? resultNum * -1 : resultNum;
+}
 
+function isNum(char) {
 
-    return result * sign;
-};
+    const curNumCharCode = char.charCodeAt(0);
 
-//Time : O(n)
-//Space: O(1)
-//Time : O(n)
-//Space: O(1)
+    if (curNumCharCode >= "0".charCodeAt(0) && curNumCharCode <= "9".charCodeAt(0)) {
+
+        return true
+    }
+
+    return false;
+}
 
 //https://www.youtube.com/watch?v=zwZXiutgrUE
 console.log(myAtoi("4193 with words"));

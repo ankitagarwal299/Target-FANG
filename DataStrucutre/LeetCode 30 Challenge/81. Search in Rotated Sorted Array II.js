@@ -13,7 +13,7 @@ function searchRotatedSortedArray(arr, target) {
     if (arr[mid] == target) {
       return arr[mid] == target;//found at mid point
 
-    } else if (arr[mid] >= arr[left]) {//means left is sorted, then find in sorted first
+    } else if (arr[left]<= arr[mid]) {//means left is sorted, then find in sorted first
 
       //does target lies between sorted left part
       if (arr[left] <= target && arr[mid] >= target) {

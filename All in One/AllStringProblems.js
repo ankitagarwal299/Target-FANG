@@ -531,59 +531,6 @@ rorse -> rose(remove 'r')
 rose -> ros(remove 'e') */
 
 
-var editDistance = function (word1, word2) {
-    let dp = new Array(word1.length + 1).fill(0).map(_ => new Array(word2.length + 1).fill(0));
-    for (let i = 0; i < dp.length; i++) {
-        dp[i][0] = i
-    }
-
-    for (let i = 0; i < dp[0].length; i++) {
-        dp[0][i] = i
-    }
-
-    for (let i = 1; i < dp.length; i++) {
-        for (let j = 1; j < dp[0].length; j++) {
-            if (word1.charAt(i - 1) == word2.charAt(j - 1)) {
-                dp[i][j] = dp[i - 1][j - 1];
-            } else {
-                dp[i][j] = 1 + Math.min(dp[i][j - 1], dp[i - 1][j - 1], dp[i - 1][j]);
-            }
-        }
-    }
-    console.log(dp);
-    printActualEdits(dp, word1, word2)
-    return dp[word1.length][word2.length];
-
-};
-console.log(editDistance("horse", "ros"));//3
-
-
-
-function printActualEdits(dp, str1, str2) {
-    let i = dp.length - 1;
-    let j = dp[0].length - 1;
-
-    while (true) {
-        if (i == 0 || j == 0) {
-            break;
-        }
-        if (str1.charAt(i - 1) == str2.charAt(j - 1)) {
-            i = i - 1;
-            j = j - 1;
-        } else if (dp[i][j] == dp[i - 1][j - 1] + 1) {
-            console.log("Edit " + str2.charAt(j - 1) + " in string2 to " + str1.charAt(i - 1) + " in string1");
-            i = i - 1;
-            j = j - 1;
-        } else if (dp[i][j] == dp[i - 1][j] + 1) {
-            console.log("Delete in string1 " + str1.charAt(i - 1));
-            i = i - 1;
-        } else if (dp[i][j] == dp[i][j - 1] + 1) {
-            System.out.println("Delete in string2 " + str2.charAt(j - 1));
-            j = j - 1;
-        }
-    }
-}
-
 ///Leetcode 1143. Longest Common Subsequence  - {Print those chars}
 var shortestCommonSupersequence = function (text1, text2) {
     let dp = new Array(text1.length + 1).fill(0).map(_ => new Array(text2.length + 1).fill(0));

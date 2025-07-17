@@ -1,7 +1,6 @@
-/**
- * @param {number} n
- * @return {string[]}
- */
+
+//22. Generate Parentheses
+//https://www.youtube.com/watch?v=sz1qaKt0KGQ
 var generateParenthesis = function (n) {
     if (n == null || n == 0) return [];
 
@@ -24,8 +23,6 @@ var generateParenthesis = function (n) {
     traverse("", n, n);
     return result;
 };
-//22. Generate Parentheses
-//https://www.youtube.com/watch?v=sz1qaKt0KGQ
 console.log(generateParenthesis(3));
 
 
@@ -68,14 +65,14 @@ var minRemoveToMakeValid = function (str) {
             if (stack.length > 0) {
                 stack.pop();
             } else {
-                str[i] = "";//if close is more than open bracket
+                str[i] = "";//if close is more 
             }
         }
     }
 
     //if stack is not empty, means open brackets are more
     for (let i = 0; i < stack.length; i++) {
-        str[stack[i]] = "";//if close is more than open bracket
+        str[stack[i]] = "";//remove all open 
     }
     return str.join('');
 }
@@ -298,3 +295,29 @@ var longestValidParentheses = function (s) {
 //https://leetcode.com/problems/longest-valid-parentheses/discuss/555969/JS-No-magic-%3A(-%3A-approach-2-Beats-99-2-approaches-to-choose-from.-Feedback-is-welcome.
 console.log(longestValidParentheses(")()())"));
 console.log(longestValidParentheses("(()"));
+
+
+
+
+
+
+
+
+//1021. Remove Outermost Parentheses
+var removeOuterParentheses = function(s) {
+    let level = 0, op = ""
+    
+    for(let i = 0 ; i < s.length; i++) {
+        if(s[i] === "(") {
+            level++
+        }
+        if(level > 1) {
+            op += s[i]
+        }
+        if(s[i] === ")") {
+            level--
+        }
+    }
+    return op
+    
+};

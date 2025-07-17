@@ -1,37 +1,38 @@
-//https://www.youtube.com/watch?v=ry7p7o6GhFk&t=5s
-//https://www.youtube.com/watch?v=ZIPirZhUxmQ
+//chatgpt
 var nextPermutation = function (nums) {
-    if (!nums || nums.length == 0) return [];
+    if (nums.length < 2) return nums;
 
+    // Step 1: Find the first decreasing element from the right
     let i = nums.length - 2;
-    while (i >= 0 && nums[i] >= nums[i + 1]) {//>= required otherwise failing in [1,1]
-        i--;
+    while (i >= 0) {
+        if (nums[i] < nums[i + 1]) break;
+
+        i--
     }
 
-    if (i < 0) {
-        reverse(i + 1, nums.length - 1, nums);//all are increasing [4,3,2,1] index reached -1
-        return nums
+
+    if (i >= 0) {
+        // Step 2: Find the next larger element to swap from end
+        let j = nums.length - 1;
+        while (i < j) {
+            if (nums[i] < nums[j]) break;
+
+            j--
+        }
+        [nums[i], nums[j]] = [nums[j], nums[i]]; // Swap
     }
 
-    let j = nums.length - 1;
-    while (j >= 0 && nums[i] >= nums[j]) {//find number greater than i, 6>4 is false, 6>7 is false
-        j--;//here >= is required otherwise failing in [1,5,1]
+
+    // Step 3: Reverse the portion after i to get the next lexicographical permutation
+    let left = i + 1;
+    let right = nums.length - 1;
+    while (left < right) {
+        [nums[left], nums[right]] = [nums[right], nums[left]];
+        left++;
+        right--
     }
-
-    //swap when found number greater
-    [nums[i], nums[j]] = [nums[j], nums[i]];
-
-    reverse(i + 1, nums.length - 1, nums);
 
     return nums;
-};
-
-function reverse(i, j, nums) {
-    while (i < j) {
-        [nums[i], nums[j]] = [nums[j], nums[i]];
-        i++;
-        j--;
-    }
 };
 
 console.log(nextPermutation([1, 2, 3]));

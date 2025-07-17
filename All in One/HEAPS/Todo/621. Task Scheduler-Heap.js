@@ -128,4 +128,22 @@ console.log(leastInterval(["A", "A", "A", "B", "B", "B"], 0));
 console.log(leastInterval(["A", "A", "A", "A", "A", "A", "B", "C", "D", "E", "F", "G"], 2));
 
 
+/*
+Explanation of the Code
 
+MaxHeap Class:
+Implements a max heap using an array with helper methods to insert elements (insert), extract the maximum (extractMax), and handle bubbling up and down for maintaining heap properties.
+Main Function (leastInterval):
+
+Frequency Counting: We first count the occurrences of each task using a simple object.
+
+Heap Initialization: We create a MaxHeap instance and insert all task counts.
+
+Time Simulation:
+We increment time with each loop iteration.
+Extract the task with the highest frequency from the heap and decrease its count.
+If the task still has remaining counts, add it to the cooldownQueue with the time it can be re-added to the heap.
+
+If a task's cooldown time matches the current time, it is re-added to the heap.
+Return: The total time taken to complete all tasks.
+*/
