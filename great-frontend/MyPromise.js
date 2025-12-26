@@ -9,10 +9,13 @@ class MyPromise {
     this.onRejectCallback = [];
 
     try {
+       // executor((val) => this.resolve(val), (err) => this.reject(err));
+        // executor(resolve(val), reject(err)); cannot identify function outside constructor
       executor(
         (val) => this.resolve(val),
         (reason) => this.reject(reason)
       )
+      //Arrow functions preserve the this context of the class. Without them, this.resolve might lose its binding and not refer to the correct instance.
     } catch (err) {
       this.reject(err)
     }
@@ -85,22 +88,17 @@ class MyPromise {
   }
 }
 
-
 let p1 = new MyPromise((resolve, reject) => {
-  if (2 === 1) {
-    setTimeout(() => {
-      resolve("Promise resolved")
-    }, 1000);
+
+  if (1 == 1) {
+     console.log("Promise resolved.......")
+    resolve(10);
   } else {
-    setTimeout(() => {
-      reject("Promise rejected")
-    }, 2000);
+    reject("Promise rejected.......")
   }
 })
-
-  .then((val) => {
-    console.log("then log", val);
-
-  }).catch((err) => {
-    console.log("catch log", err);
-  })
+  .then((res => {
+    return res * 2
+  }))
+  .then((res => console.log("then log", res)))
+  .catch((err => console.log("catch log", err)))
