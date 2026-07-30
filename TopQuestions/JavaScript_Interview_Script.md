@@ -782,36 +782,80 @@ console.log(fastFibonacci(40)); // Instant (from cache)
 ### 5. Debounce & Throttle
 
 ```javascript
-// Debounce - wait for pause
-function debounce(fn, delay) {
-  let timeoutId;
-  
-  return function(...args) {
-    clearTimeout(timeoutId);
-    timeoutId = setTimeout(() => fn.apply(this, args), delay);
-  };
+// --- Debounce Implementation ---
+// <input type="text" name="search" id="search"></input>
+
+let count = 0;
+
+// function sayHello(name) {
+//   console.log(`Hello, ${name}! Count: ${++count}`);
+// }
+
+function sayHello(e) {
+  console.log(`Hello, ${e.target.value}! Count: ${++count}`);
 }
 
-const handleSearch = debounce((query) => {
-  console.log(`Searching for: ${query}`);
-}, 500);
+function debounce(callback, delay) {
+  let timeoutId = null;
 
-// Throttle - limit execution rate
-function throttle(fn, limit) {
-  let inThrottle;
-  
-  return function(...args) {
-    if (!inThrottle) {
-      fn.apply(this, args);
-      inThrottle = true;
-      setTimeout(() => inThrottle = false, limit);
+  return function debouncedFn(...args) {
+    // preserve `this` for methods called via obj.method()
+    const context = this;
+
+    // cancel any pending execution
+    if (timeoutId !== null) {
+      clearTimeout(timeoutId);
     }
+
+    // schedule a new execution
+    timeoutId = setTimeout(() => {
+      // run with original `this` and args
+      callback.apply(context, args);
+      // optional: set to null so you can detect "no pending"
+      timeoutId = null;
+    }, delay);
   };
 }
 
-const handleScroll = throttle(() => {
-  console.log('Scroll event');
-}, 1000);
+const debounced = debounce(sayHello, 1000);
+
+const search = document.getElementById('search');
+if (search) {
+  search.addEventListener('input', debounce(sayHello, 1000));
+}
+
+// --- Throttle Implementation ---
+// <button id="btn">Click me fast!</button>
+
+const btn = document.getElementById('btn');
+
+function onClick() {
+  console.log('Handled at', new Date().toLocaleTimeString());
+}
+
+function throttle(callback, wait) {
+  let shouldthrottle = false;
+
+  return function fn(...args) {
+    if (shouldthrottle) {
+      return;
+    }
+
+    shouldthrottle = true;
+
+    callback.apply(this, args);
+
+    setTimeout(function () {
+      shouldthrottle = false;
+    }, wait);
+  }
+}
+
+const throttledClick = throttle(onClick, 10000);
+
+if (btn) {
+  btn.addEventListener('click', throttledClick);
+}
 ```
 
 ---
