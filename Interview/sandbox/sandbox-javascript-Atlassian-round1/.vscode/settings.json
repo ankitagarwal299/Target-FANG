@@ -1,0 +1,20 @@
+{
+    "emmet.triggerExpansionOnTab": true,
+    "emmet.showExpandedAbbreviation": "always",
+    "emmet.showAbbreviationSuggestions": true,
+    "emmet.includeLanguages": {
+        "javascript": "javascriptreact",
+        "vue-html": "html",
+        "html": "html"
+    },
+    "files.associations": {
+        "*.html": "html"
+    },
+    "editor.quickSuggestions": {
+        "other": true,
+        "comments": false,
+        "strings": true
+    },
+    "editor.suggestSelection": "first",
+    "javascript.updateImportsOnFileMove.enabled": "always"
+}

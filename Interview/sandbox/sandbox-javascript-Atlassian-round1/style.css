@@ -1,0 +1,20 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid grey;
+    width: 90%;
+    padding: 10px;
+    margin: 10px auto;
+}
+
+.footer {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
